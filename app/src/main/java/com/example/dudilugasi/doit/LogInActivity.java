@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+//tryyyy
 public class LogInActivity extends AppCompatActivity {
     private TextView nameText;
     private TextView passwordText;
