@@ -7,6 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.dudilugasi.doit.common.TaskItem;
+import com.example.dudilugasi.doit.dal.DAO;
+import com.example.dudilugasi.doit.dal.IDataAccess;
+
+import java.util.Date;
+import java.util.List;
+
 //try again
 public class LogInActivity extends AppCompatActivity {
     private TextView nameText;
@@ -26,16 +34,17 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //*********call for authentication**********
-             //   Intent intent = new Intent(LogInActivity.this,***next activity***)
-             //   String text1 = nameText.getText().toString();
-             //   intent.putExtra("name",text1);
-             //   String text2 = passwordText.getText().toString();
-             //   intent.putExtra("pass",text2);
-             //   String text3 = phoneText.getText().toString();
-             //   intent.putExtra("phone", text3);
-             //   startActivity(intent);
+                //   Intent intent = new Intent(LogInActivity.this,***next activity***)
+                //   String text1 = nameText.getText().toString();
+                //   intent.putExtra("name",text1);
+                //   String text2 = passwordText.getText().toString();
+                //   intent.putExtra("pass",text2);
+                //   String text3 = phoneText.getText().toString();
+                //   intent.putExtra("phone", text3);
+                //   startActivity(intent);
             }
         });
+
     }
 
 }

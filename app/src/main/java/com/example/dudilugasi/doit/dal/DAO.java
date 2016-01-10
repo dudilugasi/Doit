@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Class DAO
  */
-public class DAO implements IDateAccess{
+public class DAO implements IDataAccess {
 
     SimpleDateFormat formatter = new SimpleDateFormat("mm/dd/yyyy hh:mm:ss a");
 
@@ -31,7 +31,9 @@ public class DAO implements IDateAccess{
             TasksDbContract.TaskEntry.COLUMN_TASK_CREATED,
             TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME,
             TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL,
-            TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION
+            TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION,
+            TasksDbContract.TaskEntry.COLUMN_TASK_ACCEPT
+
     };
 
 
@@ -63,7 +65,7 @@ public class DAO implements IDateAccess{
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME , formatter.format(task.getDueTime()));
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL , task.getImageUrl());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION , task.getLocation());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY , task.getCategory());
+            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_STATUS , task.getStatus());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_NAME , task.getTaskName());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY, task.getPriority());
 
@@ -116,6 +118,7 @@ public class DAO implements IDateAccess{
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL , task.getImageUrl());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION , task.getLocation());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY , task.getCategory());
+            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_STATUS , task.getStatus());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_NAME , task.getTaskName());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY, task.getPriority());
             return database.insert(TasksDbContract.TaskEntry.TABLE_NAME, null, values);
@@ -127,7 +130,7 @@ public class DAO implements IDateAccess{
     }
 
     @Override
-    public List<TaskItem> GetTasks() {
+    public List<TaskItem> getTasks() {
         SQLiteDatabase database = null;
         try {
             List<TaskItem> tasks = new ArrayList<>();
@@ -157,7 +160,7 @@ public class DAO implements IDateAccess{
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = waiting",null,null,null,null);
+                    TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,null);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);
@@ -180,7 +183,7 @@ public class DAO implements IDateAccess{
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_NAME + " = " + member,null,null,null,null);
+                    TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'",null,null,null,null);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);
@@ -203,8 +206,8 @@ public class DAO implements IDateAccess{
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_NAME + " = " + member
-                            + " and " + TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = waiting",null,null,null,null);
+                    TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'"
+                            + " and " + TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,null);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);

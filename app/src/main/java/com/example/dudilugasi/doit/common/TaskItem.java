@@ -111,4 +111,21 @@ public class TaskItem {
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
+
+    @Override
+    public String toString() {
+        return "TaskItem{" +
+                "id=" + id +
+                ", created=" + created +
+                ", category='" + category + '\'' +
+                ", priority='" + priority + '\'' +
+                ", location='" + location + '\'' +
+                ", dueTime=" + dueTime +
+                ", assignee='" + assignee + '\'' +
+                ", status='" + status + '\'' +
+                ", accept='" + accept + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", taskName='" + taskName + '\'' +
+                '}';
+    }
 }
