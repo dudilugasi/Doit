@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Class DAO
  */
-public class DAO implements IDateAccess{
+public class DAO implements IDataAccess {
 
     SimpleDateFormat formatter = new SimpleDateFormat("mm/dd/yyyy hh:mm:ss a");
 

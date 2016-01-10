@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * class IDataAccess
  */
-public interface IDateAccess {
+public interface IDataAccess {
 
     List<TaskItem> GetTasks();
 
