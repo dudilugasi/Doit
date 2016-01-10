@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Doit</string>
+    <string name="do_it_name">doit</string>
+    <string name="app_name">doit</string>
+    <string name="user_name">User Name</string>
+    <string name="password_field">Password</string>
+    <string name="phone_field">Phone</string>
+
 </resources>
