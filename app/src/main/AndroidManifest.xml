@@ -8,17 +8,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogInActivity">
+        <activity android:name=".LogInActivity" />
+        <activity android:name=".activities.WaitingTasksActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.WaitingTasksActivity">
-
-        </activity>
-        <activity android:name=".activities.AllTasksListActivity"></activity>
+        <activity android:name=".activities.AllTasksListActivity" />
+        <activity android:name=".activities.ReportTaskActivity" />
+        <activity android:name=".activities.EditTaskActivity"></activity>
     </application>
 
 </manifest>

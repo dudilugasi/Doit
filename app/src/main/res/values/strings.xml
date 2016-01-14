@@ -7,4 +7,6 @@
 
     <string name="all_tasks_list">ALL TASKS</string>
     <string name="waiting_tasks_list">WAITING TASKS</string>
+
+    <string name="waiting_tasks_counter_label">Tasks: </string>
 </resources>
