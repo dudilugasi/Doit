@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        getSupportActionBar().hide();
+
         nameText = (TextView) findViewById(R.id.user_name_field);
         passwordText = (TextView) findViewById(R.id.password_field);
         phoneText = (TextView) findViewById(R.id.phone_field);
@@ -44,7 +47,6 @@ public class LogInActivity extends AppCompatActivity {
                 //   startActivity(intent);
             }
         });
-
     }
 
 }

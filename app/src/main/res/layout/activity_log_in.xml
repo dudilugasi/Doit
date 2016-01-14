@@ -10,10 +10,7 @@
     tools:context="com.example.dudilugasi.doit.LogInActivity"
     android:background="#467FD7">
 
-    TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,14 +65,16 @@
         android:layout_height="wrap_content"
         android:text="Sign Up"
         android:id="@+id/sign_up_button"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_marginBottom="65dp"
         android:layout_alignLeft="@+id/phone_field"
         android:layout_alignStart="@+id/phone_field"
         android:layout_alignRight="@+id/phone_field"
         android:layout_alignEnd="@+id/phone_field"
         android:background="#2196F3"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/phone_field" />
 
 
 </RelativeLayout>
