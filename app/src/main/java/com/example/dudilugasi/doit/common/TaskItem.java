@@ -19,6 +19,18 @@ public class TaskItem {
     private String imageUrl;
     private String taskName;
 
+    public TaskItem(Date created, String category, String priority, String location, Date dueTime, String assignee, String status, String accept, String taskName) {
+        this.created = created;
+        this.category = category;
+        this.priority = priority;
+        this.location = location;
+        this.dueTime = dueTime;
+        this.assignee = assignee;
+        this.status = status;
+        this.accept = accept;
+        this.taskName = taskName;
+    }
+
     public void setCreated(Date created) {
         this.created = created;
     }
