@@ -11,37 +11,49 @@ public class TaskController implements ITaskController{
 
     private IDataAccess dao;
     private Context context;
-    TaskController(Context context)
+    public TaskController(Context context)
     {
         dao = DAO.getInstance(context.getApplicationContext());
         this.context = context;
     }
-    @Override
-    public void SetTask(String task) {
 
+    @Override
+    public List<TaskItem> getTasks() {
+        return dao.getTasks();
     }
 
     @Override
-    public List<TaskItem> GetTasks() {
+    public TaskItem getTaskById(String id) {
         return null;
     }
 
     @Override
-    public void SetTasks(List<TaskItem> tasks) {
-
+    public List<TaskItem> getWaitingTasks() {
+        return dao.getWaitingTasks();
     }
 
     @Override
-    public TaskItem GetTaskById(String id) {
-        return null;
+    public List<TaskItem> getTasksByAssignee(String assignee) {
+        return dao.getTasksForMember(assignee);
     }
 
     @Override
-    public void SetTask(TaskItem task) {
-
+    public List<TaskItem> getWaitingTasksByAssignee(String assignee) {
+        return dao.getWaitingTasksForMember(assignee);
     }
 
+    @Override
+    public int updateTask(TaskItem task) {
+        return dao.updateTask(task);
+    }
 
+    @Override
+    public int removeTask(TaskItem task) {
+        return dao.removeTask(task);
+    }
 
-
+    @Override
+    public long addTask(TaskItem task) {
+        return dao.addTask(task);
+    }
 }
