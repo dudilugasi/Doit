@@ -69,11 +69,9 @@ public class DAO implements IDataAccess {
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_NAME , task.getTaskName());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY, task.getPriority());
 
-            int success = database.update(TasksDbContract.TaskEntry.TABLE_NAME,
+            return database.update(TasksDbContract.TaskEntry.TABLE_NAME,
                     values,TasksDbContract.TaskEntry._ID + " = ?",
                     new String[]{String.valueOf(task.getId())});
-
-            return success;
         }
 
         finally {

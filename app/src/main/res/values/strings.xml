@@ -13,4 +13,6 @@
     <string name="team_name">Team name</string>
     <string name="about">About</string>
 
+    <string name="all_tasks_list">ALL TASKS</string>
+    <string name="waiting_tasks_list">WAITING TASKS</string>
 </resources>
