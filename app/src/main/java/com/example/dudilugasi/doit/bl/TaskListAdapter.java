@@ -65,13 +65,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                 if (loginController.isAdmin()) {
                     Intent intent = new Intent(context, EditTaskActivity.class);
                     intent.putExtra(Constants.EDIT_TASK_ID,task.getId());
-                    intent.putExtra(Constants.EDIT_TASK_POSITION,position);
                     ((Activity) context).startActivityForResult(intent,Constants.REQUEST_CODE_UPDATE_TASK);
                 }
                 else {
                     Intent intent = new Intent(context, ReportTaskActivity.class);
                     intent.putExtra(Constants.EDIT_TASK_ID,task.getId());
-                    intent.putExtra(Constants.EDIT_TASK_POSITION,position);
                     ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
                 }
             }
@@ -137,12 +135,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
     }
 
-    public void updateTask(TaskItem task , int position) throws  DoitException {
+    public void updateTask(TaskItem task) throws  DoitException {
         if (task == null) {
             throw new DoitException("error");
         }
         else {
-            this.taskItems.set(position,task);
             notifyDataSetChanged();
         }
     }

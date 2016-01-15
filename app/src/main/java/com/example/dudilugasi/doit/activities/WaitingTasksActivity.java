@@ -203,7 +203,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
             task.setImageUrl(imageurl);
             controller.updateTask(task);
             try {
-                mAdapter.updateTask(task,data.getIntExtra(Constants.EDIT_TASK_POSITION,1));
+                mAdapter.updateTask(task);
             }
             catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
