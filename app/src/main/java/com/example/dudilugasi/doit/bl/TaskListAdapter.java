@@ -140,6 +140,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
             throw new DoitException("error");
         }
         else {
+            for (int i = 0; i < this.taskItems.size() ; i++ ) {
+                if (this.taskItems.get(i).getId() == task.getId()) {
+                    this.taskItems.set(i,task);
+                    break;
+                }
+            }
             notifyDataSetChanged();
         }
     }

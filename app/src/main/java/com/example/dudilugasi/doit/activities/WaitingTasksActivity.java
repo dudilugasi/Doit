@@ -252,7 +252,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         swipeRefreshLayout.setRefreshing(true);
         List<TaskItem> newTasks =  controller.checkForNewTasks();
         if (newTasks != null) {
+            //add the new task to the adapter
 
+            //if there is only one task do dialog
+            if (newTasks.size() == 1) {
+                NewTasksDialogFragment newTasksDialogFragment = new NewTasksDialogFragment();
+                newTasksDialogFragment.show(getFragmentManager(),"newTaskDialog");
+                newTaskDialogReturned = newTasks.get(0).getId();
+            }
+            //if there is more then one task mark them
         }
         else {
             Toast.makeText(this,"no new tasks",Toast.LENGTH_SHORT).show();
@@ -262,7 +270,9 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-
+        Intent intent = new Intent(this, ReportTaskActivity.class);
+        intent.putExtra(Constants.EDIT_TASK_ID,newTaskDialogReturned);
+        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
     }
 
     @Override
