@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface IDataAccess {
 
-    List<TaskItem> getTasks();
+    List<TaskItem> getTasks(int orderbyColumn);
 
     List<TaskItem> getWaitingTasks();
 
-    List<TaskItem> getTasksForMember(String member);
+    List<TaskItem> getTasksForMember(String member,int orderbyColumn);
 
     List<TaskItem> getWaitingTasksForMember(String member);
 

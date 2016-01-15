@@ -128,13 +128,14 @@ public class DAO implements IDataAccess {
     }
 
     @Override
-    public List<TaskItem> getTasks() {
+    public List<TaskItem> getTasks(int orderbyColumn) {
         SQLiteDatabase database = null;
         try {
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
+            String orderby = getOrderByColumnString(orderbyColumn) + " DESC";
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    null,null,null,null,null);
+                    null,null,null,null,orderby);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);
@@ -157,8 +158,9 @@ public class DAO implements IDataAccess {
         try {
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
+            String orderby = TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME + " DESC";
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,null);
+                    TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,orderby);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);
@@ -175,13 +177,14 @@ public class DAO implements IDataAccess {
     }
 
     @Override
-    public List<TaskItem> getTasksForMember(String member) {
+    public List<TaskItem> getTasksForMember(String member,int orderbyColumn) {
         SQLiteDatabase database = null;
         try {
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
+            String orderby = getOrderByColumnString(orderbyColumn) + " DESC";
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'",null,null,null,null);
+                    TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'",null,null,null,orderby);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);
@@ -203,9 +206,10 @@ public class DAO implements IDataAccess {
         try {
             List<TaskItem> tasks = new ArrayList<>();
             database = dbHelper.getReadableDatabase();
+            String orderby = TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME + " DESC";
             Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
                     TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'"
-                            + " and " + TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,null);
+                            + " and " + TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,orderby);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 TaskItem t = cursorToTask(cursor);
@@ -246,5 +250,16 @@ public class DAO implements IDataAccess {
         t.setTaskName(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_NAME)));
 
         return t;
+    }
+
+    private String getOrderByColumnString(int orderbyCode ) {
+        switch (orderbyCode) {
+            case 2:
+                return TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY;
+            case 3:
+                return TasksDbContract.TaskEntry.COLUMN_TASK_STATUS;
+            default:
+                return TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME;
+        }
     }
 }

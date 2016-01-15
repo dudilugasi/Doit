@@ -15,7 +15,7 @@ public class LoginController {
     }
 
     public boolean isAdmin() {
-        return false;
+        return true;
     }
 
     public String getUserName() {

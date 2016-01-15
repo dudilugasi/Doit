@@ -1,5 +1,6 @@
 package com.example.dudilugasi.doit.bl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -63,13 +64,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
                 if (loginController.isAdmin()) {
                     Intent intent = new Intent(context, EditTaskActivity.class);
-                    intent.putExtra(Constants.EDIT_TASK_NAME,task.getTaskName());
-                    context.startActivity(intent);
+                    intent.putExtra(Constants.EDIT_TASK_ID,task.getId());
+                    intent.putExtra(Constants.EDIT_TASK_POSITION,position);
+                    ((Activity) context).startActivityForResult(intent,Constants.REQUEST_CODE_UPDATE_TASK);
                 }
                 else {
                     Intent intent = new Intent(context, ReportTaskActivity.class);
-                    intent.putExtra(Constants.EDIT_TASK_NAME,task.getTaskName());
-                    context.startActivity(intent);
+                    intent.putExtra(Constants.EDIT_TASK_ID,task.getId());
+                    intent.putExtra(Constants.EDIT_TASK_POSITION,position);
+                    ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
                 }
             }
         });
@@ -79,6 +82,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     public int getItemCount() {
         return taskItems.size();
     }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         //Each item is a view in the card.
@@ -129,6 +134,16 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         else {
             this.taskItems.remove(task);
             notifyItemRemoved(position);
+        }
+    }
+
+    public void updateTask(TaskItem task , int position) throws  DoitException {
+        if (task == null) {
+            throw new DoitException("error");
+        }
+        else {
+            this.taskItems.set(position,task);
+            notifyDataSetChanged();
         }
     }
 

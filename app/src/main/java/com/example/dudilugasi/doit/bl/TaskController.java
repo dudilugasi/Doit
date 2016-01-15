@@ -18,8 +18,8 @@ public class TaskController implements ITaskController{
     }
 
     @Override
-    public List<TaskItem> getTasks() {
-        return dao.getTasks();
+    public List<TaskItem> getTasks(int orderby) {
+        return dao.getTasks(orderby);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class TaskController implements ITaskController{
     }
 
     @Override
-    public List<TaskItem> getTasksByAssignee(String assignee) {
-        return dao.getTasksForMember(assignee);
+    public List<TaskItem> getTasksByAssignee(String assignee,int orderby) {
+        return dao.getTasksForMember(assignee,orderby);
     }
 
     @Override
@@ -55,5 +55,12 @@ public class TaskController implements ITaskController{
     @Override
     public long addTask(TaskItem task) {
         return dao.addTask(task);
+    }
+
+    @Override
+    public List<TaskItem> checkForNewTasks() {
+        List<TaskItem> list = new ArrayList<TaskItem>();
+        return list;
+
     }
 }

@@ -26,5 +26,16 @@
     <string name="member_mail">Member Mail</string>
     <string name="memeber_phone">Member Phone</string>
     <string name="send">send</string>
+    <string name="update_list">UPDATE</string>
+
+    <string name="new_task_dialog_message">You have received a new message</string>
+    <string name="cancel">CANCEL</string>
+    <string name="view_task">VIEW TASK</string>
+
+    <string-array name="arrange_by">
+        <item>Due Date</item>
+        <item>Priority</item>
+        <item>Status</item>
+    </string-array>
 
 </resources>

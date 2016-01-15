@@ -20,7 +20,7 @@
             android:id="@+id/waiting_list_button"
             android:layout_weight="0.5"
             android:contextClickable="false"
-            android:background="#7193e7"
+            android:background="#3d74d2"
             android:textColor="#ffffff"
             android:onClick="moveToWaitingTasks" />
 
@@ -30,8 +30,22 @@
             android:text="@string/all_tasks_list"
             android:id="@+id/all_tasks_button"
             android:layout_weight="0.5"
-            android:background="#7193e7"
+            android:background="#3d74d2"
             android:onClick="moveToAllTasks" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#5788d9"
+        android:id="@+id/tasks_sort_spinner_layout">
+        
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrange_tasks_spinner"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"></Spinner>
     </LinearLayout>
 
     <LinearLayout
@@ -62,13 +76,33 @@
                 android:id="@+id/waiting_list_counter" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/task_list_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="addNewTaskButtonClicked"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/button"
+                android:text="@string/update_list"
+                android:gravity="center"
+                android:onClick="refreshListButtonClicked" />
+        </RelativeLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout_waiting_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/task_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="addNewTaskButtonClicked"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -76,8 +110,8 @@
             android:layout_marginTop="-65dp">
 
             <ImageButton
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/plus_icon"
                 android:layout_alignParentRight="true"
                 android:id="@+id/add_task_button"
