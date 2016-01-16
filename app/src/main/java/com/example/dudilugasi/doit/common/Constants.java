@@ -16,4 +16,8 @@ public class Constants {
 
     public static final int REQUEST_CODE_UPDATE_TASK = 2;
     public static final String EDIT_TASK_POSITION = "edit_task_position";
+    public static final int TASK_UPDATE_LISTENER_CODE_ALL_ITEMS = 1;
+    public static final int TASK_UPDATE_LISTENER_CODE_ALL_UPDATE = 2;
+    public static final int TASK_UPDATE_LISTENER_CODE_ALL_DELETE = 3;
+    public static final int TASK_UPDATE_LISTENER_CODE_ALL_ADD = 4;
 }

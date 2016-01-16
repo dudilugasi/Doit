@@ -7,10 +7,9 @@ import java.util.Date;
  */
 public class TaskItem {
 
-    private long id;
-    private Date created;
+    private String id;
     private String category;
-    private String priority;
+    private int priority;
     private String location;
     private Date dueTime;
     private String assignee;
@@ -19,8 +18,7 @@ public class TaskItem {
     private String imageUrl = "";
     private String taskName;
 
-    public TaskItem(Date created, String category, String priority, String location, Date dueTime, String assignee, String status, String accept, String taskName) {
-        this.created = created;
+    public TaskItem(String category, int priority, String location, Date dueTime, String assignee, String status, String accept, String taskName) {
         this.category = category;
         this.priority = priority;
         this.location = location;
@@ -31,26 +29,17 @@ public class TaskItem {
         this.taskName = taskName;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
 
-    public TaskItem() {
-        this.created = new Date();
-    }
 
-    public long getId() {
+    public TaskItem() {}
+
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
-
-    public Date getCreated() {
-        return created;
-    }
-
 
     public String getCategory() {
         return category;
@@ -60,11 +49,11 @@ public class TaskItem {
         this.category = category;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
@@ -128,7 +117,6 @@ public class TaskItem {
     public String toString() {
         return "TaskItem{" +
                 "id=" + id +
-                ", created=" + created +
                 ", category='" + category + '\'' +
                 ", priority='" + priority + '\'' +
                 ", location='" + location + '\'' +

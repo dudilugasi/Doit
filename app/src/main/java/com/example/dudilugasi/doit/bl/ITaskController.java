@@ -4,14 +4,14 @@ import com.example.dudilugasi.doit.common.TaskItem;
 import java.util.List;
 
 public interface ITaskController {
-    List<TaskItem> getTasks(int orderby);
-    List<TaskItem> getWaitingTasks();
-    List<TaskItem> getTasksByAssignee(String assignee, int orderby);
-    List<TaskItem> getWaitingTasksByAssignee(String assignee);
+    void getTasks(int orderby);
+    void getWaitingTasks();
+    void getTasksByAssignee(String assignee, int orderby);
+    void getWaitingTasksByAssignee(String assignee);
     TaskItem getTaskById(String id);
-    int updateTask(TaskItem task);
-    int removeTask(TaskItem task);
-    long addTask(TaskItem task);
+    void updateTask(TaskItem task);
+    void removeTask(TaskItem task);
+    void addTask(TaskItem task);
 
     List<TaskItem> checkForNewTasks();
 }

@@ -1,5 +1,7 @@
 package com.example.dudilugasi.doit.dal;
 
+import com.example.dudilugasi.doit.bl.TaskListAdapter;
+import com.example.dudilugasi.doit.bl.TaskUpdateListener;
 import com.example.dudilugasi.doit.common.TaskItem;
 
 import java.util.List;
@@ -9,18 +11,21 @@ import java.util.List;
  */
 public interface IDataAccess {
 
-    List<TaskItem> getTasks(int orderbyColumn);
+    void getTasks(int orderbyColumn);
 
-    List<TaskItem> getWaitingTasks();
+    void getWaitingTasks();
 
-    List<TaskItem> getTasksForMember(String member,int orderbyColumn);
+    void getTasksForMember(String member,int orderbyColumn);
 
-    List<TaskItem> getWaitingTasksForMember(String member);
+    void getWaitingTasksForMember(String member);
 
-    long addTask(TaskItem task);
+    void addTask(TaskItem task);
 
-    int removeTask(TaskItem task);
+    void removeTask(TaskItem task);
 
-    int updateTask(TaskItem task);
+    void updateTask(TaskItem task);
+
+    void setTaskUpdateListener(TaskUpdateListener listener);
+    void updateListeners(List<TaskItem> taskItems, int code);
 
 }

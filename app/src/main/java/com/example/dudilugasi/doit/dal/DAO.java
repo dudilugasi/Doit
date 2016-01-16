@@ -4,9 +4,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.example.dudilugasi.doit.bl.TaskListAdapter;
+import com.example.dudilugasi.doit.bl.TaskUpdateListener;
+import com.example.dudilugasi.doit.common.Constants;
+import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.TaskItem;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,271 +33,227 @@ public class DAO implements IDataAccess {
 
     private static DAO instance;
     private Context context;
-    private TasksDbHelper dbHelper;
-    private String[] tasksColumns = { TasksDbContract.TaskEntry._ID,
-            TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE,
-            TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY,
-            TasksDbContract.TaskEntry.COLUMN_TASK_STATUS,
-            TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY,
-            TasksDbContract.TaskEntry.COLUMN_TASK_NAME,
-            TasksDbContract.TaskEntry.COLUMN_TASK_CREATED,
-            TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME,
-            TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL,
-            TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION,
-            TasksDbContract.TaskEntry.COLUMN_TASK_ACCEPT
-
-    };
-
+    private ArrayList<TaskUpdateListener> listeners = new ArrayList<TaskUpdateListener>();
 
     private DAO(Context context) {
         this.context = context;
-        dbHelper = new TasksDbHelper(this.context);
     }
-    public static DAO getInstance(Context applicationContext)
-    {
-        if(instance ==  null)
+
+    public static DAO getInstance(Context applicationContext) {
+        if (instance == null)
             instance = new DAO(applicationContext);
         return instance;
     }
 
     @Override
-    public int updateTask(TaskItem task)  {
+    public void updateTask(final TaskItem task) {
 
-        SQLiteDatabase database = null;
-        try {
-            database = dbHelper.getWritableDatabase();
-            if (task == null) {
-                return 0;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.getInBackground(task.getId(), new GetCallback<ParseObject>() {
+            public void done(final ParseObject po, ParseException e) {
+                if (e == null) {
+                    taskToParseObject(po, task);
+                    po.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            task.setId(po.getObjectId());
+                            List<TaskItem> list = new ArrayList<TaskItem>();
+                            list.add(task);
+                            updateListeners(list, Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE);
+                        }
+                    });
+                }
             }
-            ContentValues values = new ContentValues();
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_ACCEPT , task.getAccept());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE , task.getAssignee());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY , task.getCategory());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CREATED , formatter.format(task.getCreated()));
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME , formatter.format(task.getDueTime()));
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL , task.getImageUrl());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION , task.getLocation());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_STATUS , task.getStatus());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_NAME , task.getTaskName());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY, task.getPriority());
-
-            return database.update(TasksDbContract.TaskEntry.TABLE_NAME,
-                    values,TasksDbContract.TaskEntry._ID + " = ?",
-                    new String[]{String.valueOf(task.getId())});
-        }
-
-        finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        });
 
     }
 
     @Override
-    public int removeTask(TaskItem task) {
-        SQLiteDatabase database = null;
-        try {
-            database = dbHelper.getWritableDatabase();
-            if (task == null) {
-                return 0;
+    public void removeTask(TaskItem task) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.getInBackground(task.getId(), new GetCallback<ParseObject>() {
+            public void done(final ParseObject po, ParseException e) {
+                if (e == null) {
+                    po.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            TaskItem t = new TaskItem();
+                            t.setId(po.getObjectId());
+                            List<TaskItem> list = new ArrayList<TaskItem>();
+                            list.add(t);
+                            updateListeners(list, Constants.TASK_UPDATE_LISTENER_CODE_ALL_DELETE);
+                        }
+                    });
+                }
             }
-            return database.delete(TasksDbContract.TaskEntry.TABLE_NAME,
-                    TasksDbContract.TaskEntry._ID + " = ?" ,new String[] {String.valueOf(task.getId())});
-        } finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        });
     }
 
     @Override
-    public long addTask(TaskItem task) {
-        SQLiteDatabase database = null;
-        try {
-            database = dbHelper.getReadableDatabase();
-            if (task == null) {
-                return 0;
+    public void addTask(final TaskItem task) {
+        Log.i("addtask","got to add Task");
+        final ParseObject po = new ParseObject("Task");
+        taskToParseObject(po, task);
+        po.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.i("addtask", "done");
+                task.setId(po.getObjectId());
+                List<TaskItem> list = new ArrayList<TaskItem>();
+                list.add(task);
+                updateListeners(list, Constants.TASK_UPDATE_LISTENER_CODE_ALL_ADD);
             }
-            ContentValues values = new ContentValues();
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_ACCEPT , task.getAccept());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE , task.getAssignee());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CREATED , formatter.format(task.getCreated()));
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME , formatter.format(task.getDueTime()));
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL , task.getImageUrl());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION , task.getLocation());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY , task.getCategory());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_STATUS , task.getStatus());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_NAME , task.getTaskName());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY, task.getPriority());
-
-            ParseObject taskParse = new ParseObject("Task");
-//            taskParse.put("accept",task.getAccept());
-//            taskParse.put("assignee",task.getAssignee());
-//            taskParse.put("category",task.getCategory());
-//            taskParse.put("dueTime",task.getDueTime());
-//            taskParse.put("imageUrl",task.getImageUrl());
-//            taskParse.put("location",task.getLocation());
-//            taskParse.put("status",task.getStatus());
-//            taskParse.put("priority",task.getPriority());
-//            taskParse.put("createdAt",task.getCreated());
-            taskParse.put("name",task.getTaskName());
-
-            taskParse.saveInBackground();
-
-            return database.insert(TasksDbContract.TaskEntry.TABLE_NAME, null, values);
-        } finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        });
     }
 
     @Override
-    public List<TaskItem> getTasks(int orderbyColumn) {
-        SQLiteDatabase database = null;
-        try {
-            List<TaskItem> tasks = new ArrayList<>();
-            database = dbHelper.getReadableDatabase();
-            String orderby = getOrderByColumnString(orderbyColumn) + " DESC";
-            Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    null,null,null,null,orderby);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                TaskItem t = cursorToTask(cursor);
-                tasks.add(t);
-                cursor.moveToNext();
-            }
+    public void getTasks(int orderbyColumn) {
 
-            cursor.close();
-            return tasks;
-        } finally {
-            if (database != null) {
-                database.close();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.orderByDescending(getOrderByColumnString(orderbyColumn));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> taskList, ParseException e) {
+                if (e == null) {
+
+                    List<TaskItem> tasks = new ArrayList<>();
+
+                    for (int i = 0; i < taskList.size(); i++) {
+                        TaskItem task = parseObjectToTask(taskList.get(i));
+                        tasks.add(task);
+                    }
+                    updateListeners(tasks, Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS);
+
+                } else {
+
+                }
             }
-        }
+        });
     }
 
     @Override
-    public List<TaskItem> getWaitingTasks() {
-        SQLiteDatabase database = null;
-        try {
-            List<TaskItem> tasks = new ArrayList<>();
-            database = dbHelper.getReadableDatabase();
-            String orderby = TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME + " DESC";
-            Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,orderby);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                TaskItem t = cursorToTask(cursor);
-                tasks.add(t);
-                cursor.moveToNext();
+    public void getWaitingTasks() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.orderByDescending(getOrderByColumnString(0));
+        query.whereEqualTo("status","waiting");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> taskList, ParseException e) {
+                if (e == null) {
+
+                    List<TaskItem> tasks = new ArrayList<>();
+
+                    for (int i = 0; i < taskList.size(); i++) {
+                        TaskItem task = parseObjectToTask(taskList.get(i));
+                        tasks.add(task);
+                    }
+                    updateListeners(tasks, Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS);
+
+                } else {
+
+                }
             }
-            cursor.close();
-            return tasks;
-        } finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        });
     }
 
     @Override
-    public List<TaskItem> getTasksForMember(String member,int orderbyColumn) {
-        SQLiteDatabase database = null;
-        try {
-            List<TaskItem> tasks = new ArrayList<>();
-            database = dbHelper.getReadableDatabase();
-            String orderby = getOrderByColumnString(orderbyColumn) + " DESC";
-            Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'",null,null,null,orderby);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                TaskItem t = cursorToTask(cursor);
-                tasks.add(t);
-                cursor.moveToNext();
+    public void getTasksForMember(String member, int orderbyColumn) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.orderByDescending(getOrderByColumnString(orderbyColumn));
+        query.whereEqualTo("assignee",member);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> taskList, ParseException e) {
+                if (e == null) {
+
+                    List<TaskItem> tasks = new ArrayList<>();
+
+                    for (int i = 0; i < taskList.size(); i++) {
+                        TaskItem task = parseObjectToTask(taskList.get(i));
+                        tasks.add(task);
+                    }
+                    updateListeners(tasks, Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS);
+
+                } else {
+
+                }
             }
-            cursor.close();
-            return tasks;
-        } finally {
-            if (database != null) {
-                database.close();
-            }
-        }
+        });
     }
 
     @Override
-    public List<TaskItem> getWaitingTasksForMember(String member) {
-        SQLiteDatabase database = null;
-        try {
-            List<TaskItem> tasks = new ArrayList<>();
-            database = dbHelper.getReadableDatabase();
-            String orderby = TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME + " DESC";
-            Cursor cursor = database.query(TasksDbContract.TaskEntry.TABLE_NAME,tasksColumns,
-                    TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE + " = '" + member + "'"
-                            + " and " + TasksDbContract.TaskEntry.COLUMN_TASK_STATUS + " = 'waiting'",null,null,null,orderby);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                TaskItem t = cursorToTask(cursor);
-                tasks.add(t);
-                cursor.moveToNext();
-            }
-            cursor.close();
-            return tasks;
-        } finally {
-            if (database != null) {
-                database.close();
-            }
-        }
-    }
+    public void getWaitingTasksForMember(String member) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.orderByDescending(getOrderByColumnString(0));
+        query.whereEqualTo("status", "waiting");
+        query.whereEqualTo("assignee",member);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> taskList, ParseException e) {
+                if (e == null) {
 
-    public void deleteDB() {
-        SQLiteDatabase database = null;
-        try {
-            database = dbHelper.getReadableDatabase();
-            database.delete(TasksDbContract.TaskEntry.TABLE_NAME,null,null);
-        } finally {
-            if (database != null) {
-                database.close();
+                    List<TaskItem> tasks = new ArrayList<>();
+
+                    for (int i = 0; i < taskList.size(); i++) {
+                        TaskItem task = parseObjectToTask(taskList.get(i));
+                        tasks.add(task);
+                    }
+                    updateListeners(tasks, Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS);
+
+                } else {
+
+                }
             }
-        }
+        });
     }
 
     private TaskItem cursorToTask(Cursor cursor) {
+        return new TaskItem();
+    }
+
+    private TaskItem parseObjectToTask(ParseObject object) {
         TaskItem t = new TaskItem();
-        t.setId(cursor.getInt(cursor.getColumnIndex(TasksDbContract.TaskEntry._ID)));
-
-        t.setAccept(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_ACCEPT)));
-
-        t.setAssignee(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE)));
-
-        t.setCategory(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY)));
-
-        t.setDueTime(new Date(cursor.getLong(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME)) * 1000));
-
-        t.setCreated(new Date(cursor.getLong(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME)) * 1000));
-
-        t.setImageUrl(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL)));
-
-        t.setLocation(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_LOCATION)));
-
-        t.setPriority(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY)));
-
-        t.setStatus(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_STATUS)));
-
-        t.setTaskName(cursor.getString(cursor.getColumnIndex(TasksDbContract.TaskEntry.COLUMN_TASK_NAME)));
+        t.setId(object.getObjectId());
+        t.setAccept(object.getString("accept"));
+        t.setCategory(object.getString("category"));
+        t.setAssignee(object.getString("assignee"));
+        t.setDueTime(object.getDate("dueTime"));
+        t.setImageUrl(object.getString("imageUrl"));
+        t.setLocation(object.getString("location"));
+        t.setPriority(object.getInt("priority"));
+        t.setStatus(object.getString("status"));
+        t.setTaskName(object.getString("name"));
 
         return t;
     }
 
-    private String getOrderByColumnString(int orderbyCode ) {
+    private void taskToParseObject(ParseObject po, TaskItem task) {
+        po.put("accept", task.getAccept());
+        po.put("assignee", task.getAssignee());
+        po.put("category", task.getCategory());
+        po.put("dueTime", task.getDueTime());
+        po.put("imageUrl", task.getImageUrl());
+        po.put("location", task.getLocation());
+        po.put("status", task.getStatus());
+        po.put("priority", task.getPriority());
+        po.put("name", task.getTaskName());
+
+    }
+
+    private String getOrderByColumnString(int orderbyCode) {
         switch (orderbyCode) {
+            case 1:
+                return "priority";
             case 2:
-                return TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY;
-            case 3:
-                return TasksDbContract.TaskEntry.COLUMN_TASK_STATUS;
+                return "status";
             default:
-                return TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME;
+                return "dueTime";
+        }
+    }
+
+    public void setTaskUpdateListener(TaskUpdateListener listener) {
+        this.listeners.add(listener);
+    }
+
+    public void updateListeners(List<TaskItem> taskItems, int code) {
+        for (TaskUpdateListener listener : this.listeners) {
+            listener.onUpdate(taskItems, code);
         }
     }
 }

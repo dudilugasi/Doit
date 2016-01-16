@@ -25,7 +25,9 @@ import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.bl.ITaskController;
 import com.example.dudilugasi.doit.bl.TaskController;
 import com.example.dudilugasi.doit.bl.TaskListAdapter;
+import com.example.dudilugasi.doit.bl.TaskUpdateListener;
 import com.example.dudilugasi.doit.common.Constants;
+import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.dal.DAO;
@@ -35,7 +37,7 @@ import com.parse.ParseObject;
 import java.util.Date;
 import java.util.List;
 
-public class WaitingTasksActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener ,SwipeRefreshLayout.OnRefreshListener, NewTasksDialogFragment.NewTaskDialogListener
+public class WaitingTasksActivity extends AppCompatActivity implements TaskUpdateListener,AdapterView.OnItemSelectedListener ,SwipeRefreshLayout.OnRefreshListener, NewTasksDialogFragment.NewTaskDialogListener
 {
 
     private static final String TAG = WaitingTasksActivity.class.getName();
@@ -46,8 +48,8 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
     private TaskListAdapter mAdapter;
     private LoginController loginController;
     private String currentTab = "waiting";
-    private int currentSortByPosition = 1;
-    private long newTaskDialogReturned;
+    private int currentSortByPosition = 0;
+    private String newTaskDialogReturned;
 
 
     @Override
@@ -56,9 +58,6 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_waiting_task);
-
-        controller = new TaskController(this);
-        loginController = new LoginController(this);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_waiting_list);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -70,13 +69,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mAdapter = new TaskListAdapter(this);
+
+        controller = new TaskController(this);
+        loginController = new LoginController(this);
+
         if (loginController.isAdmin()) {
-            mAdapter = new TaskListAdapter(this, controller.getWaitingTasks(), controller);
-
-
-
+            controller.getWaitingTasks();
         } else {
-            mAdapter = new TaskListAdapter(this, controller.getWaitingTasksByAssignee(loginController.getUserName()), controller);
+            controller.getWaitingTasksByAssignee(loginController.getUserName());
             //hide add new task button
             ImageButton add_task_button = (ImageButton) findViewById(R.id.add_task_button);
             add_task_button.setVisibility(View.INVISIBLE);
@@ -106,9 +107,9 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         if (currentTab.equals("waiting")) {
             currentTab = "all";
             if (loginController.isAdmin()) {
-                mAdapter.updateList(controller.getTasks(1));
+                controller.getTasks(0);
             } else {
-                mAdapter.updateList(controller.getTasksByAssignee(loginController.getUserName(), 1));
+                controller.getTasksByAssignee(loginController.getUserName(),0);
             }
             Button button = (Button) findViewById(R.id.all_tasks_button);
             button.setTextColor(Color.WHITE);
@@ -128,15 +129,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         if (currentTab.equals("all")) {
             currentTab = "waiting";
             if (loginController.isAdmin()) {
-                mAdapter.updateList(controller.getWaitingTasks());
+                controller.getWaitingTasks();
             } else {
-                mAdapter.updateList(controller.getWaitingTasksByAssignee(loginController.getUserName()));
+                controller.getWaitingTasksByAssignee(loginController.getUserName());
             }
             Button button = (Button) findViewById(R.id.all_tasks_button);
             button.setTextColor(Color.BLACK);
             Button button2 = (Button) findViewById(R.id.waiting_list_button);
             button2.setTextColor(Color.WHITE);
-            updateTasksCount();
+
             LinearLayout spinner_layout = (LinearLayout) findViewById(R.id.tasks_sort_spinner_layout);
             spinner_layout.setVisibility(View.GONE);
         }
@@ -173,16 +174,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         //if returning from adding new task
         if (requestCode == Constants.REQUEST_CODE_ADD_NEW_TASK && resultCode == Activity.RESULT_OK) {
             String category = data.getStringExtra(Constants.NEW_TASK_CATEGORY);
-            String priority = data.getStringExtra(Constants.NEW_TASK_PRIORITY);
+            int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
             String location = data.getStringExtra(Constants.NEW_TASK_LOCATION);
             String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
             String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
             Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
-            Date created = new Date();
 
-            TaskItem task = new TaskItem(created, category, priority, location, dueDate, assignee, status, accept, name);
+            TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);
             controller.addTask(task);
             try {
                 mAdapter.add(task);
@@ -193,7 +193,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
 
         else if (requestCode == Constants.REQUEST_CODE_UPDATE_TASK && resultCode == Activity.RESULT_OK) {
             String category = data.getStringExtra(Constants.NEW_TASK_CATEGORY);
-            String priority = data.getStringExtra(Constants.NEW_TASK_PRIORITY);
+            int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
             String location = data.getStringExtra(Constants.NEW_TASK_LOCATION);
             String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
@@ -201,17 +201,10 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
             Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
             String imageurl = data.getStringExtra(Constants.NEW_TASK_IMAGEURL);
-            Date created = new Date();
 
-            TaskItem task = new TaskItem(created, category, priority, location, dueDate, assignee, status, accept, name);
+            TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);
             task.setImageUrl(imageurl);
             controller.updateTask(task);
-            try {
-                mAdapter.updateTask(task);
-            }
-            catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -227,9 +220,9 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
                                int pos, long id) {
         if (currentSortByPosition != pos) {
             if (loginController.isAdmin()) {
-                mAdapter.updateList(controller.getTasks(pos));
+                controller.getTasks(pos);
             } else {
-                mAdapter.updateList(controller.getTasksByAssignee(loginController.getUserName(), pos));
+                controller.getTasksByAssignee(loginController.getUserName(),pos);
             }
             currentSortByPosition = pos;
         }
@@ -252,31 +245,24 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         refreshList();
     }
 
+    /**
+     * updates the tasks list
+     */
     public void refreshList() {
         swipeRefreshLayout.setRefreshing(true);
-        List<TaskItem> newTasks =  controller.checkForNewTasks();
-        if (newTasks != null) {
-            //add the new task to the adapter
 
-            //if there is only one task do dialog
-            if (newTasks.size() == 1) {
-                NewTasksDialogFragment newTasksDialogFragment = new NewTasksDialogFragment();
-                newTasksDialogFragment.show(getFragmentManager(),"newTaskDialog");
-                newTaskDialogReturned = newTasks.get(0).getId();
-            }
-            //if there is more then one task mark them
-        }
-        else {
-            Toast.makeText(this,"no new tasks",Toast.LENGTH_SHORT).show();
-        }
+        NewTasksDialogFragment newTasksDialogFragment = new NewTasksDialogFragment();
+        newTasksDialogFragment.show(getFragmentManager(),"newTaskDialog");
+
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        Intent intent = new Intent(this, ReportTaskActivity.class);
-        intent.putExtra(Constants.EDIT_TASK_ID,newTaskDialogReturned);
-        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
+
+//        Intent intent = new Intent(this, ReportTaskActivity.class);
+//        intent.putExtra(Constants.EDIT_TASK_ID,newTaskDialogReturned);
+//        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
 
     }
 
@@ -285,9 +271,36 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
 
     }
 
-    public void addtasktest(View view) {
-        TaskItem t1 = new TaskItem(new Date(),"general","important","my house",new Date(new Date().getTime() + (1000 * 60 * 60 * 24)),"dudi","waiting","accept","parse task 1");
-        controller.addTask(t1);
+    /**
+     * handles async updates from the DAO
+     * @param tasks
+     * @param code
+     */
+    @Override
+    public void onUpdate(List<TaskItem> tasks,int code) {
+        if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS) {
+            mAdapter.updateList(tasks);
+            updateTasksCount();
+        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE) {
+            try {
+                mAdapter.updateTask(tasks.get(0));
+
+            } catch (DoitException e) {
+                e.printStackTrace();
+            }
+        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_DELETE) {
+            try {
+                mAdapter.remove(tasks.get(0));
+            } catch (DoitException e) {
+                e.printStackTrace();
+            }
+        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ADD) {
+            try {
+                mAdapter.add(tasks.get(0));
+            } catch (DoitException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }

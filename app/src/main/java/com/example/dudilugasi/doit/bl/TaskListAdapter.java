@@ -3,6 +3,7 @@ package com.example.dudilugasi.doit.bl;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,22 +23,29 @@ import com.example.dudilugasi.doit.common.ItemClickListener;
 import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * TaskListAdapter
  */
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
-    private final ITaskController controller;
+    private ITaskController controller;
     private List<TaskItem> taskItems;
     private Context context;
     private LoginController loginController;
 
-    public TaskListAdapter(Context context ,List<TaskItem> tasks, ITaskController controller) {
-        this.taskItems = tasks;
+    public TaskListAdapter(Context context) {
+        this.taskItems = new ArrayList<>();
         this.context = context;
-        this.controller = controller;
         this.loginController = new LoginController(context);
+    }
+
+    public void setController(ITaskController controller) {
+        this.controller = controller;
     }
 
     @Override
@@ -64,12 +72,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
                 if (loginController.isAdmin()) {
                     Intent intent = new Intent(context, EditTaskActivity.class);
-                    intent.putExtra(Constants.EDIT_TASK_ID,task.getId());
-                    ((Activity) context).startActivityForResult(intent,Constants.REQUEST_CODE_UPDATE_TASK);
-                }
-                else {
+                    intent.putExtra(Constants.EDIT_TASK_ID, task.getId());
+                    ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
+                } else {
                     Intent intent = new Intent(context, ReportTaskActivity.class);
-                    intent.putExtra(Constants.EDIT_TASK_ID,task.getId());
+                    intent.putExtra(Constants.EDIT_TASK_ID, task.getId());
                     ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
                 }
             }
@@ -125,13 +132,18 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
     }
 
-    public void remove(TaskItem task,int position) throws  DoitException {
+    public void remove(TaskItem task) throws  DoitException {
         if (task == null) {
             throw new DoitException("error");
         }
         else {
-            this.taskItems.remove(task);
-            notifyItemRemoved(position);
+            for (int i = 0; i < this.taskItems.size() ; i++ ) {
+                if (this.taskItems.get(i).getId().equals(task.getId())) {
+                    this.taskItems.remove(i);
+                    break;
+                }
+            }
+            notifyDataSetChanged();
         }
     }
 
@@ -141,7 +153,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
         else {
             for (int i = 0; i < this.taskItems.size() ; i++ ) {
-                if (this.taskItems.get(i).getId() == task.getId()) {
+                if (this.taskItems.get(i).getId().equals(task.getId())) {
                     this.taskItems.set(i,task);
                     break;
                 }

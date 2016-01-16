@@ -14,12 +14,13 @@ public class TaskController implements ITaskController{
     public TaskController(Context context)
     {
         dao = DAO.getInstance(context.getApplicationContext());
+        dao.setTaskUpdateListener((TaskUpdateListener) context);
         this.context = context;
     }
 
     @Override
-    public List<TaskItem> getTasks(int orderby) {
-        return dao.getTasks(orderby);
+    public void getTasks(int orderby) {
+        dao.getTasks(orderby);
     }
 
     @Override
@@ -28,33 +29,33 @@ public class TaskController implements ITaskController{
     }
 
     @Override
-    public List<TaskItem> getWaitingTasks() {
-        return dao.getWaitingTasks();
+    public void getWaitingTasks() {
+         dao.getWaitingTasks();
     }
 
     @Override
-    public List<TaskItem> getTasksByAssignee(String assignee,int orderby) {
-        return dao.getTasksForMember(assignee,orderby);
+    public void getTasksByAssignee(String assignee,int orderby) {
+         dao.getTasksForMember(assignee,orderby);
     }
 
     @Override
-    public List<TaskItem> getWaitingTasksByAssignee(String assignee) {
-        return dao.getWaitingTasksForMember(assignee);
+    public void getWaitingTasksByAssignee(String assignee) {
+         dao.getWaitingTasksForMember(assignee);
     }
 
     @Override
-    public int updateTask(TaskItem task) {
-        return dao.updateTask(task);
+    public void updateTask(TaskItem task) {
+        dao.updateTask(task);
     }
 
     @Override
-    public int removeTask(TaskItem task) {
-        return dao.removeTask(task);
+    public void removeTask(TaskItem task) {
+         dao.removeTask(task);
     }
 
     @Override
-    public long addTask(TaskItem task) {
-        return dao.addTask(task);
+    public void addTask(TaskItem task) {
+         dao.addTask(task);
     }
 
     @Override
