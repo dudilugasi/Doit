@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.dudilugasi.doit.common.TaskItem;
+import com.parse.ParseObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,7 +111,6 @@ public class DAO implements IDataAccess {
             ContentValues values = new ContentValues();
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_ACCEPT , task.getAccept());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_ASSIGNEE , task.getAssignee());
-            values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CATEGORY , task.getCategory());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_CREATED , formatter.format(task.getCreated()));
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_DUETIME , formatter.format(task.getDueTime()));
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_IMAGEURL , task.getImageUrl());
@@ -119,6 +119,21 @@ public class DAO implements IDataAccess {
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_STATUS , task.getStatus());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_NAME , task.getTaskName());
             values.put(TasksDbContract.TaskEntry.COLUMN_TASK_PRIORITY, task.getPriority());
+
+            ParseObject taskParse = new ParseObject("Task");
+//            taskParse.put("accept",task.getAccept());
+//            taskParse.put("assignee",task.getAssignee());
+//            taskParse.put("category",task.getCategory());
+//            taskParse.put("dueTime",task.getDueTime());
+//            taskParse.put("imageUrl",task.getImageUrl());
+//            taskParse.put("location",task.getLocation());
+//            taskParse.put("status",task.getStatus());
+//            taskParse.put("priority",task.getPriority());
+//            taskParse.put("createdAt",task.getCreated());
+            taskParse.put("name",task.getTaskName());
+
+            taskParse.saveInBackground();
+
             return database.insert(TasksDbContract.TaskEntry.TABLE_NAME, null, values);
         } finally {
             if (database != null) {
@@ -218,6 +233,18 @@ public class DAO implements IDataAccess {
             }
             cursor.close();
             return tasks;
+        } finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
+
+    public void deleteDB() {
+        SQLiteDatabase database = null;
+        try {
+            database = dbHelper.getReadableDatabase();
+            database.delete(TasksDbContract.TaskEntry.TABLE_NAME,null,null);
         } finally {
             if (database != null) {
                 database.close();

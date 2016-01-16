@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dudilugasi.doit">
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:name=".Doit"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="PzvUUt5rd3Ajg0wMIwW1x9OxLDOpXgflRf0fENJl" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="rLzbsCUzlZnJiLKduMZwcVLKVduEVxSxIOw4XX91" />
         <activity android:name=".LogInActivity" />
         <activity android:name=".activities.WaitingTasksActivity">
             <intent-filter>

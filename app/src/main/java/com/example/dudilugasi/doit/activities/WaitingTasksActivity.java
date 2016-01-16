@@ -30,6 +30,7 @@ import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dialogs.NewTasksDialogFragment;
+import com.parse.ParseObject;
 
 import java.util.Date;
 import java.util.List;
@@ -51,8 +52,11 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_waiting_task);
+
         controller = new TaskController(this);
         loginController = new LoginController(this);
 
@@ -273,10 +277,17 @@ public class WaitingTasksActivity extends AppCompatActivity implements AdapterVi
         Intent intent = new Intent(this, ReportTaskActivity.class);
         intent.putExtra(Constants.EDIT_TASK_ID,newTaskDialogReturned);
         startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
+
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
+    public void addtasktest(View view) {
+        TaskItem t1 = new TaskItem(new Date(),"general","important","my house",new Date(new Date().getTime() + (1000 * 60 * 60 * 24)),"dudi","waiting","accept","parse task 1");
+        controller.addTask(t1);
 
     }
 }

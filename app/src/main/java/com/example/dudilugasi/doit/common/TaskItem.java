@@ -16,7 +16,7 @@ public class TaskItem {
     private String assignee;
     private String status;
     private String accept;
-    private String imageUrl;
+    private String imageUrl = "";
     private String taskName;
 
     public TaskItem(Date created, String category, String priority, String location, Date dueTime, String assignee, String status, String accept, String taskName) {
