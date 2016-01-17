@@ -23,4 +23,7 @@ public class EditTaskActivity extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
+    public void onCancel(View v){
+        finish();
+    }
 }
