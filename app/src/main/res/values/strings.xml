@@ -31,6 +31,17 @@
     <string name="new_task_dialog_message">You have received a new message</string>
     <string name="cancel">CANCEL</string>
     <string name="view_task">VIEW TASK</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_category">Task Catrgory:</string>
+    <string name="cleaning">cleaning</string>
+    <string name="electricity">electricity</string>
+    <string name="computers">computers</string>
+    <string name="general">general</string>
+    <string name="other">other</string>
+    <string name="task_priority">Task priority:</string>
+    <string name="low">low</string>
+    <string name="normal">normal</string>
+    <string name="urgent">urgent</string>
 
     <string-array name="arrange_by">
         <item>Due Date</item>
