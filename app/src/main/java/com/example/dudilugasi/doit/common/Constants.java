@@ -20,4 +20,9 @@ public class Constants {
     public static final int TASK_UPDATE_LISTENER_CODE_ALL_UPDATE = 2;
     public static final int TASK_UPDATE_LISTENER_CODE_ALL_DELETE = 3;
     public static final int TASK_UPDATE_LISTENER_CODE_ALL_ADD = 4;
+
+    public static final int USER_LOGGED_IN = 1;
+    public static final int USER_LOGGED_IN_FAILED = 2;
+
+
 }

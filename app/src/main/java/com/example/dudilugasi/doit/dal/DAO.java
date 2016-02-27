@@ -6,17 +6,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.bl.TaskListAdapter;
 import com.example.dudilugasi.doit.bl.TaskUpdateListener;
 import com.example.dudilugasi.doit.common.Constants;
 import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.TaskItem;
+import com.example.dudilugasi.doit.common.TeamMember;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +38,7 @@ public class DAO implements IDataAccess {
     private static DAO instance;
     private Context context;
     private ArrayList<TaskUpdateListener> listeners = new ArrayList<TaskUpdateListener>();
+    private LoginListener loginListener;
 
     private DAO(Context context) {
         this.context = context;
@@ -91,7 +96,7 @@ public class DAO implements IDataAccess {
 
     @Override
     public void addTask(final TaskItem task) {
-        Log.i("addtask","got to add Task");
+        Log.i("addtask", "got to add Task");
         final ParseObject po = new ParseObject("Task");
         taskToParseObject(po, task);
         po.saveInBackground(new SaveCallback() {
@@ -134,7 +139,7 @@ public class DAO implements IDataAccess {
     public void getWaitingTasks() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.orderByDescending(getOrderByColumnString(0));
-        query.whereEqualTo("status","waiting");
+        query.whereEqualTo("status", "waiting");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> taskList, ParseException e) {
                 if (e == null) {
@@ -158,7 +163,7 @@ public class DAO implements IDataAccess {
     public void getTasksForMember(String member, int orderbyColumn) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.orderByDescending(getOrderByColumnString(orderbyColumn));
-        query.whereEqualTo("assignee",member);
+        query.whereEqualTo("assignee", member);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> taskList, ParseException e) {
                 if (e == null) {
@@ -183,7 +188,7 @@ public class DAO implements IDataAccess {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.orderByDescending(getOrderByColumnString(0));
         query.whereEqualTo("status", "waiting");
-        query.whereEqualTo("assignee",member);
+        query.whereEqualTo("assignee", member);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> taskList, ParseException e) {
                 if (e == null) {
@@ -256,4 +261,28 @@ public class DAO implements IDataAccess {
             listener.onUpdate(taskItems, code);
         }
     }
+
+    public void setLoginListener(LoginListener listener) {
+        this.loginListener = listener;
+    }
+
+    public void updateLoginListener(int code) {
+        loginListener.onUpdate(code);
+    }
+
+    public void login(String username, String password) {
+
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    Log.e("user test", "user logged in");
+                    updateLoginListener(Constants.USER_LOGGED_IN);
+                } else {
+                    Log.e("user test", "user logged in failed");
+                    updateLoginListener(Constants.USER_LOGGED_IN_FAILED);
+                }
+            }
+        });
+    }
+
 }
