@@ -10,6 +10,12 @@ public class TeamMember {
     private String email;
     private String phone;
 
+    public TeamMember(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public long getId() {
         return id;
     }

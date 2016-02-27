@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.bl.ITaskController;
+import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.bl.TaskController;
 import com.example.dudilugasi.doit.bl.TaskListAdapter;
 import com.example.dudilugasi.doit.bl.TaskUpdateListener;
@@ -37,7 +40,7 @@ import com.parse.ParseObject;
 import java.util.Date;
 import java.util.List;
 
-public class WaitingTasksActivity extends AppCompatActivity implements TaskUpdateListener,AdapterView.OnItemSelectedListener ,SwipeRefreshLayout.OnRefreshListener, NewTasksDialogFragment.NewTaskDialogListener
+public class WaitingTasksActivity extends AppCompatActivity implements LoginListener ,TaskUpdateListener,AdapterView.OnItemSelectedListener ,SwipeRefreshLayout.OnRefreshListener, NewTasksDialogFragment.NewTaskDialogListener
 {
 
     private static final String TAG = WaitingTasksActivity.class.getName();
@@ -51,7 +54,26 @@ public class WaitingTasksActivity extends AppCompatActivity implements TaskUpdat
     private int currentSortByPosition = 0;
     private String newTaskDialogReturned;
 
-    //ben gay
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.settings_action) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,6 +324,10 @@ public class WaitingTasksActivity extends AppCompatActivity implements TaskUpdat
                 e.printStackTrace();
             }
         }
+
+    }
+
+    public void onUpdate(int code) {
 
     }
 }

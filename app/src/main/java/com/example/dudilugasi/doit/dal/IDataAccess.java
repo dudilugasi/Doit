@@ -1,8 +1,10 @@
 package com.example.dudilugasi.doit.dal;
 
+import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.bl.TaskListAdapter;
 import com.example.dudilugasi.doit.bl.TaskUpdateListener;
 import com.example.dudilugasi.doit.common.TaskItem;
+import com.example.dudilugasi.doit.common.TeamMember;
 
 import java.util.List;
 
@@ -27,5 +29,10 @@ public interface IDataAccess {
 
     void setTaskUpdateListener(TaskUpdateListener listener);
     void updateListeners(List<TaskItem> taskItems, int code);
+
+    void setLoginListener(LoginListener listener);
+    void updateLoginListener(int code);
+
+    void login(String username , String password);
 
 }
