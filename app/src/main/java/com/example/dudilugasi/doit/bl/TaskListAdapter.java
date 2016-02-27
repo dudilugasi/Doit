@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dudilugasi.doit.R;
-import com.example.dudilugasi.doit.activities.AllTasksListActivity;
 import com.example.dudilugasi.doit.activities.EditTaskActivity;
 import com.example.dudilugasi.doit.activities.ReportTaskActivity;
 import com.example.dudilugasi.doit.activities.WaitingTasksActivity;
