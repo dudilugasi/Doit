@@ -12,6 +12,6 @@ public class Doit extends Application {
     public void onCreate() {
         super.onCreate();
         Parse.initialize(this);
-
     }
+
 }
