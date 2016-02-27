@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dudilugasi.doit.LogInActivity;
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.bl.ITaskController;
 import com.example.dudilugasi.doit.bl.LoginListener;
@@ -70,6 +71,12 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings_action) {
             return true;
+        }
+
+        if (id == R.id.logout_action) {
+            loginController.logout();
+            Intent intent = new Intent(this, LogInActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

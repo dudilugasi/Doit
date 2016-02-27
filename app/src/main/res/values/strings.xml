@@ -42,6 +42,7 @@
     <string name="low">low</string>
     <string name="normal">normal</string>
     <string name="urgent">urgent</string>
+    <string name="logout">log out</string>
 
     <string-array name="arrange_by">
         <item>Due Date</item>

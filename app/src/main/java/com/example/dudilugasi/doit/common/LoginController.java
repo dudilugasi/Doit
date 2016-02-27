@@ -49,4 +49,8 @@ public class LoginController {
             return false;
         }
     }
+
+    public void logout() {
+        ParseUser.logOut();
+    }
 }
