@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -8,8 +8,8 @@
 
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1"
-        >
+        android:weightSum="1">
+
         <TextView
             android:layout_width="match_parent"
 
@@ -22,68 +22,31 @@
             android:textColor="#ffffff"
             android:layout_weight="0.16" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
         <TextView
-            android:layout_width="170dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text=  "@string/task_category"
             android:id="@+id/task_category_text"
             android:layout_weight="0.43"
             android:textColor="#000000"
             android:textSize="25sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="15dp" />
+            android:layout_marginLeft="20dp" />
 
-        <RadioButton
-            android:layout_width="214dp"
+        <Spinner
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="@string/cleaning"
-            android:id="@+id/radio_cleaning"
-            android:layout_gravity="right"
-            android:checked="false"
-            android:textSize="25sp"
-            android:layout_marginTop="-30dp" />
+            android:id="@+id/task_category_spinner"></Spinner>
+    </LinearLayout>
 
-        <RadioButton
-            android:layout_width="214dp"
-            android:layout_height="wrap_content"
-            android:text="@string/electricity"
-            android:id="@+id/radio_elctrecity"
-            android:layout_gravity="right"
-            android:checked="false"
-            android:textSize="25sp"
-            android:layout_marginTop="20dp" />
 
-        <RadioButton
-            android:layout_width="214dp"
-            android:layout_height="wrap_content"
-            android:text="@string/computers"
-            android:id="@+id/radio_computers"
-            android:layout_gravity="right"
-            android:checked="false"
-            android:textSize="25sp"
-            android:layout_marginTop="20dp" />
 
-        <RadioButton
-            android:layout_width="214dp"
-            android:layout_height="wrap_content"
-            android:text="@string/general"
-            android:id="@+id/radio_general"
-            android:layout_gravity="right"
-            android:checked="false"
-            android:textSize="25sp"
-            android:layout_marginTop="20dp" />
 
-        <RadioButton
-            android:layout_width="214dp"
-            android:layout_height="wrap_content"
-            android:text="@string/other"
-            android:id="@+id/radio_other"
-            android:layout_gravity="right"
-            android:checked="false"
-            android:textSize="25sp"
-            android:layout_marginTop="20dp"
-            />
         <View
             android:layout_width="150dp"
             android:layout_height="2dp"
@@ -92,6 +55,11 @@
             android:layout_marginRight="50dp"
             android:layout_marginTop="20dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,38 +68,39 @@
             android:id="@+id/task_priority"
             android:textSize="25sp"
             android:textColor="#000000"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp" />
-
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:layout_marginLeft="20dp">
         <RadioButton
-            android:layout_width="214dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/low"
             android:id="@+id/radio_low"
-            android:layout_gravity="right"
-            android:layout_marginTop="-30dp"
             android:textSize="25sp"
             android:checked="false" />
 
         <RadioButton
-            android:layout_width="214dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/normal"
             android:id="@+id/radio_normal"
-            android:layout_gravity="right"
             android:checked="false"
-            android:textSize="25sp"
-            android:layout_marginTop="20dp" />
+            android:textSize="25sp" />
 
         <RadioButton
-            android:layout_width="214dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/urgent"
             android:id="@+id/radioButton"
-            android:layout_gravity="right"
-            android:layout_marginTop="20dp"
             android:checked="false"
             android:textSize="25sp" />
+        </RadioGroup>
+        </LinearLayout>
+
+
 
         <View
             android:layout_width="150dp"
@@ -141,6 +110,11 @@
             android:layout_marginRight="50dp"
             android:layout_marginTop="20dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,19 +123,22 @@
             android:layout_weight="0.19"
             android:textSize="25dp"
             android:textColor="#000000"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginLeft="20dp" />
 
         <EditText
-            android:layout_width="105dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editText"
-            android:layout_gravity="right"
-            android:layout_marginTop="-35dp"
-            android:layout_marginRight="70dp" />
+            android:layout_gravity="right" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -170,27 +147,31 @@
             android:layout_weight="0.19"
             android:textSize="25dp"
             android:textColor="#000000"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginLeft="20dp" />
         <Button
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="time"
             android:onClick="showTimePickerDialog"
             android:id="@+id/button"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="right"
-            android:layout_marginTop="-40dp"
-            android:layout_marginRight="100dp" />
+            android:layout_gravity="right" />
 
         <Button
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="date"
             android:onClick="showDatePickerDialog"
             android:layout_gravity="right"
-            android:layout_marginTop="-49dp"
-            android:layout_marginRight="10dp" />
+            android:nestedScrollingEnabled="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -200,35 +181,33 @@
             android:layout_weight="0.16"
             android:textSize="25dp"
             android:textColor="#000000"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp" />
 
         <EditText
-            android:layout_width="174dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/person_name"
             android:layout_gravity="right"
-            android:layout_marginTop="-35dp"
             android:text="Person Name" />
-
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
         <Button
-            android:layout_width="130dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/save_task_button"
-            android:layout_gravity="right"
-            android:layout_weight="0.16"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginLeft="100dp" />
 
         <Button
-            android:layout_width="130dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/cancel_button"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="-48dp"
-            android:onClick="onCancel"/>
+            android:onClick="onCancel" />
+        </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
