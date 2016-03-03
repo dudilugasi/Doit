@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal">
-
+    <ScrollView android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
         android:orientation="vertical" android:layout_width="match_parent"
@@ -24,10 +25,34 @@
             android:layout_weight="0.16" />
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=  "Task name:"
+                android:id="@+id/task_name"
+                android:layout_weight="0.05"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_marginLeft="20dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/task_name_text"
+                android:layout_weight="0.75" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +63,7 @@
             android:textColor="#000000"
             android:textSize="25sp"
             android:layout_marginLeft="20dp" />
+
 
         <Spinner
             android:layout_width="200dp"
@@ -223,6 +249,7 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/save_task_button"
+            android:onClick="onSave"
             android:layout_marginLeft="100dp" />
 
         <Button
@@ -234,9 +261,10 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
     <MediaController
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mediaController" />
+
 </LinearLayout>

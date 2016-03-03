@@ -229,15 +229,39 @@ public class DAO implements IDataAccess {
     }
 
     private void taskToParseObject(ParseObject po, TaskItem task) {
-        po.put("accept", task.getAccept());
-        po.put("assignee", task.getAssignee());
-        po.put("category", task.getCategory());
-        po.put("dueTime", task.getDueTime());
-        po.put("imageUrl", task.getImageUrl());
-        po.put("location", task.getLocation());
-        po.put("status", task.getStatus());
+        Log.e("taks object", task.toString());
+        if (task.getAccept() != null ) {
+            po.put("accept", task.getAccept());
+        }
+        if (task.getAssignee() != null) {
+            po.put("assignee", task.getAssignee());
+        }
+        if (task.getCategory() != null) {
+
+            po.put("category", task.getCategory());
+        }
+        if (task.getDueTime() != null) {
+
+            po.put("dueTime", task.getDueTime());
+        }
+        if (task.getImageUrl() != null) {
+
+            po.put("imageUrl", task.getImageUrl());
+        }
+        if (task.getLocation() != null ) {
+
+            po.put("location", task.getLocation());
+        }
+        if (task.getStatus() != null) {
+            po.put("status", task.getStatus());
+        }
+
         po.put("priority", task.getPriority());
-        po.put("name", task.getTaskName());
+
+        if (task.getTaskName() != null) {
+
+            po.put("name", task.getTaskName());
+        }
 
     }
 
@@ -283,6 +307,11 @@ public class DAO implements IDataAccess {
                 }
             }
         });
+    }
+
+    @Override
+    public void getTaskById(String id) {
+
     }
 
 }
