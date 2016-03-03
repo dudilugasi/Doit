@@ -1,6 +1,7 @@
 package com.example.dudilugasi.doit.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,12 +55,24 @@ public class CreateTeamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addMember();
-                String ben="";
+                String mails="";
                 for (TeamMember t:teamMemberArray) {
                    controller.setMember(t);
-                    ben+=t.getName();
+                    mails+="\"";
+                    mails+=t.getEmail();
+                    mails+="\",";
                 }
-                Toast.makeText(v.getContext(),ben,Toast.LENGTH_LONG).show();
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{mails});
+                i.putExtra(Intent.EXTRA_SUBJECT, "invitation to doit app");
+                i.putExtra(Intent.EXTRA_TEXT   , "i have created a team at 'doit' and you are part of the team!");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail"));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(CreateTeamActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(v.getContext(),mails,Toast.LENGTH_LONG).show();
 
             }
         });
