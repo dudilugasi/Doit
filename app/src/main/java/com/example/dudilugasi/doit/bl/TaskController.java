@@ -24,8 +24,8 @@ public class TaskController implements ITaskController{
     }
 
     @Override
-    public TaskItem getTaskById(String id) {
-        return null;
+    public void getTaskById(String id) {
+        dao.getTaskById(id);
     }
 
     @Override

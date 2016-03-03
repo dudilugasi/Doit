@@ -35,4 +35,5 @@ public interface IDataAccess {
 
     void login(String username , String password);
 
+    void getTaskById(String id);
 }

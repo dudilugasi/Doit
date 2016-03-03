@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -25,9 +26,9 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private String time;
     private String date;
-    private String priority;
+    private int priority;
     private String category;
-    private int room;
+    private String room;
     private String asignee;
 
 
@@ -70,28 +71,32 @@ public class EditTaskActivity extends AppCompatActivity {
             View radioButton = rg1.findViewById(id);
             int radioId = rg1.indexOfChild(radioButton);
             RadioButton btn = (RadioButton) rg1.getChildAt(radioId);
-            priority = (String) btn.getText();
+            priority =  radioId;
+
+
         }
         Spinner sp = (Spinner) findViewById(R.id.task_category_spinner);
         category = sp.getSelectedItem().toString(); //category
 
 
         EditText nm = (EditText)  findViewById(R.id.task_room_num); //room
-        room  = Integer.parseInt(nm.getText().toString());
+        room  = nm.getText().toString();
 
         time = (String) findViewById(R.id.time_text).toString(); //time
         date = (String) findViewById(R.id.date_text).toString(); //date
 
+
+
         asignee = (String) findViewById(R.id.person_name_spinner).toString();
 
         Intent intent = new Intent(this, WaitingTasksActivity.class);
-        intent.putExtra("category",category);
-        intent.putExtra("priority",priority);
-        intent.putExtra("room",room);
-        intent.putExtra("time",time);
-        intent.putExtra("date",date);
-        intent.putExtra("asignee",asignee);
-        setResult(RESULT_OK,intent);
+        intent.putExtra(Constants.NEW_TASK_CATEGORY,category);
+        intent.putExtra(Constants.NEW_TASK_LOCATION,room);
+        intent.putExtra(Constants.NEW_TASK_PRIORITY,priority);
+        intent.putExtra(Constants.NEW_TASK_DUE_DATE,time);
+        intent.putExtra(Constants.NEW_TASK_DUE_DATE , new Date());
+        intent.putExtra(Constants.NEW_TASK_ASSIGNEE,asignee);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }
