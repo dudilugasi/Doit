@@ -8,7 +8,7 @@ public interface ITaskController {
     void getWaitingTasks();
     void getTasksByAssignee(String assignee, int orderby);
     void getWaitingTasksByAssignee(String assignee);
-    TaskItem getTaskById(String id);
+    void getTaskById(String id);
     void updateTask(TaskItem task);
     void removeTask(TaskItem task);
     void addTask(TaskItem task);
