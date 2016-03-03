@@ -223,6 +223,7 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/save_task_button"
+            android:onClick="onSave"
             android:layout_marginLeft="100dp" />
 
         <Button

@@ -91,8 +91,7 @@ public class EditTaskActivity extends AppCompatActivity {
         intent.putExtra("time",time);
         intent.putExtra("date",date);
         intent.putExtra("asignee",asignee);
-        startActivityForResult(intent, Constants.REQUEST_CODE_ADD_NEW_TASK);
-
-
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }
