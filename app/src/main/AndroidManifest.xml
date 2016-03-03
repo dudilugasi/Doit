@@ -16,16 +16,26 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="rLzbsCUzlZnJiLKduMZwcVLKVduEVxSxIOw4XX91" />
-        <activity android:name=".LogInActivity" ><intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
-        <activity android:name=".activities.WaitingTasksActivity">
+        <activity android:name=".LogInActivity" >
 
         </activity>
-        <activity android:name=".activities.ReportTaskActivity" />
-        <activity android:name=".activities.EditTaskActivity" />
+
+        <activity android:name=".activities.WaitingTasksActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.ReportTaskActivity" >
+
+        </activity>
+
+        <activity android:name=".activities.EditTaskActivity" >
+
+         </activity>
+
     </application>
 
 </manifest>
