@@ -36,7 +36,10 @@ import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dialogs.NewTasksDialogFragment;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -139,7 +142,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             if (loginController.isAdmin()) {
                 controller.getTasks(0);
             } else {
-                controller.getTasksByAssignee(loginController.getUserName(),0);
+                controller.getTasksByAssignee(loginController.getUserName(), 0);
             }
             Button button = (Button) findViewById(R.id.all_tasks_button);
             button.setTextColor(Color.WHITE);
@@ -221,7 +224,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             }
         }
 
-        else if (requestCode == Constants.REQUEST_CODE_UPDATE_TASK && resultCode == Activity.RESULT_OK) {
+        else if (requestCode == Constants.REQUEST_CODE_UPDATE_TASK  && resultCode == Activity.RESULT_OK) {
             String category = data.getStringExtra(Constants.NEW_TASK_CATEGORY);
             int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
@@ -235,6 +238,35 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);
             task.setImageUrl(imageurl);
             controller.updateTask(task);
+        }
+
+        else if (requestCode == Constants.REQUEST_CODE_REPORT_TASK && resultCode == Activity.RESULT_OK) {
+            String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
+            String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
+            String TaskId = data.getStringExtra(Constants.EDIT_TASK_ID);
+            byte[] imageBytes = data.getByteArrayExtra(Constants.NEW_TASK_IMAGE_BYTES);
+
+            final TaskItem task = mAdapter.getTask(TaskId);
+            task.setStatus(status);
+            task.setAccept(accept);
+
+            if (imageBytes != null) {
+
+                final ParseFile file = new ParseFile(task.getTaskName() + ".jpg" , imageBytes);
+
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            controller.updateTask(task,file);
+                        }
+                    }
+                });
+
+            }
+
+            controller.updateTask(task);
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -274,6 +306,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
     public void refreshListButtonClicked(View view) {
         refreshList();
     }
+
 
     /**
      * updates the tasks list
