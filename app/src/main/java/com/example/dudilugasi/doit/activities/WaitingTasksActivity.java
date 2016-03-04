@@ -267,6 +267,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
 
             controller.updateTask(task);
 
+            if (accept.equals("accept")) {
+
+                Toast.makeText(this,"Task accepted and task is " + status ,Toast.LENGTH_LONG).show();
+            }
+            if (accept.equals("rehect")) {
+                Toast.makeText(this,"Task rejected",Toast.LENGTH_LONG).show();
+
+            }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -314,18 +323,20 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
     public void refreshList() {
         swipeRefreshLayout.setRefreshing(true);
 
-        NewTasksDialogFragment newTasksDialogFragment = new NewTasksDialogFragment();
-        newTasksDialogFragment.show(getFragmentManager(),"newTaskDialog");
+        if (currentTab.equals("all")) {
+            moveToAllTasks(null);
+        }
+        else {
+            moveToWaitingTasks(null);
+        }
+
+
 
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-
-//        Intent intent = new Intent(this, ReportTaskActivity.class);
-//        intent.putExtra(Constants.EDIT_TASK_ID,newTaskDialogReturned);
-//        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
 
     }
 
@@ -364,6 +375,8 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
                 e.printStackTrace();
             }
         }
+
+        refreshList();
 
     }
 
