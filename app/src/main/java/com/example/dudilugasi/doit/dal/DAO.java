@@ -18,6 +18,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -58,6 +59,29 @@ public class DAO implements IDataAccess {
             public void done(final ParseObject po, ParseException e) {
                 if (e == null) {
                     taskToParseObject(po, task);
+                    po.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            task.setId(po.getObjectId());
+                            List<TaskItem> list = new ArrayList<TaskItem>();
+                            list.add(task);
+                            updateListeners(list, Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE);
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+    @Override
+    public void updateTask(final TaskItem task,final ParseFile file) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.getInBackground(task.getId(), new GetCallback<ParseObject>() {
+            public void done(final ParseObject po, ParseException e) {
+                if (e == null) {
+                    taskToParseObject(po, task);
+                    po.put("image",file);
                     po.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -219,7 +243,6 @@ public class DAO implements IDataAccess {
         t.setCategory(object.getString("category"));
         t.setAssignee(object.getString("assignee"));
         t.setDueTime(object.getDate("dueTime"));
-        t.setImageUrl(object.getString("imageUrl"));
         t.setLocation(object.getString("location"));
         t.setPriority(object.getInt("priority"));
         t.setStatus(object.getString("status"));
@@ -243,10 +266,6 @@ public class DAO implements IDataAccess {
         if (task.getDueTime() != null) {
 
             po.put("dueTime", task.getDueTime());
-        }
-        if (task.getImageUrl() != null) {
-
-            po.put("imageUrl", task.getImageUrl());
         }
         if (task.getLocation() != null ) {
 

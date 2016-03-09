@@ -5,6 +5,7 @@ import com.example.dudilugasi.doit.bl.TaskListAdapter;
 import com.example.dudilugasi.doit.bl.TaskUpdateListener;
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.common.TeamMember;
+import com.parse.ParseFile;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public interface IDataAccess {
     void removeTask(TaskItem task);
 
     void updateTask(TaskItem task);
+    void updateTask(TaskItem task,ParseFile file);
 
     void setTaskUpdateListener(TaskUpdateListener listener);
     void updateListeners(List<TaskItem> taskItems, int code);

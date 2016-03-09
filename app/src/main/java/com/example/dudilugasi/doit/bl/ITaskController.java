@@ -1,6 +1,8 @@
 package com.example.dudilugasi.doit.bl;
 
 import com.example.dudilugasi.doit.common.TaskItem;
+import com.parse.ParseFile;
+
 import java.util.List;
 
 public interface ITaskController {
@@ -9,6 +11,7 @@ public interface ITaskController {
     void getTasksByAssignee(String assignee, int orderby);
     void getWaitingTasksByAssignee(String assignee);
     void getTaskById(String id);
+    void updateTask(TaskItem task,ParseFile file);
     void updateTask(TaskItem task);
     void removeTask(TaskItem task);
     void addTask(TaskItem task);

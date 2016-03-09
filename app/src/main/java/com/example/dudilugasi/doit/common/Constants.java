@@ -15,6 +15,8 @@ public class Constants {
     public static final String NEW_TASK_ACCEPT = "new_task_accept";
 
     public static final int REQUEST_CODE_UPDATE_TASK = 2;
+    public static final int REQUEST_CODE_REPORT_TASK = 3;
+    public static final int REQUEST_CODE_ADD_IMAGE = 4;
     public static final String EDIT_TASK_POSITION = "edit_task_position";
     public static final int TASK_UPDATE_LISTENER_CODE_ALL_ITEMS = 1;
     public static final int TASK_UPDATE_LISTENER_CODE_ALL_UPDATE = 2;
@@ -25,4 +27,5 @@ public class Constants {
     public static final int USER_LOGGED_IN_FAILED = 2;
 
 
+    public static final String NEW_TASK_IMAGE_BYTES = "new_task_image_bytes";
 }
