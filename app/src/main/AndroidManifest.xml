@@ -23,7 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".activities.WaitingTasksActivity">
+=======
+
+        <activity android:name=".activities.WaitingTasksActivity">
+
+        </activity>
+
+        <activity android:name=".activities.ReportTaskActivity" >
+>>>>>>> f1a96c492e1b533bf666eb510f0c696904f808bf
 
         </activity>
         <activity android:name=".activities.ReportTaskActivity" />
