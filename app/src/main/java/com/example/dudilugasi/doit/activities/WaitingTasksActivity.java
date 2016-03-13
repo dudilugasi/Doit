@@ -110,7 +110,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             controller.getWaitingTasksByAssignee(loginController.getUserName());
             //hide add new task button
             ImageButton add_task_button = (ImageButton) findViewById(R.id.add_task_button);
-            add_task_button.setVisibility(View.INVISIBLE);
+         //   add_task_button.setVisibility(View.INVISIBLE);
         }
 
         mRecyclerView.setAdapter(mAdapter);
