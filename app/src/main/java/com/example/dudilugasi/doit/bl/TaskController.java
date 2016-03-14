@@ -4,6 +4,8 @@ import android.content.Context;
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dal.IDataAccess;
+import com.parse.ParseFile;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class TaskController implements ITaskController{
 
     @Override
     public void getTasksByAssignee(String assignee,int orderby) {
-         dao.getTasksForMember(assignee,orderby);
+         dao.getTasksForMember(assignee, orderby);
     }
 
     @Override
@@ -46,6 +48,9 @@ public class TaskController implements ITaskController{
     @Override
     public void updateTask(TaskItem task) {
         dao.updateTask(task);
+    }
+    public void updateTask(TaskItem task,ParseFile file) {
+        dao.updateTask(task,file);
     }
 
     @Override
