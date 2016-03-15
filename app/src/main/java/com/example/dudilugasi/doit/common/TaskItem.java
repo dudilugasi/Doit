@@ -13,14 +13,14 @@ public class TaskItem {
     private String category;
     private int priority;
     private String location;
-    private Calendar dueTime =  Calendar.getInstance(Locale.getDefault());
+    private Date dueTime = new Date();
     private String assignee;
     private String status;
     private String accept;
     private String imageUrl = "";
     private String taskName;
 
-    public TaskItem(String category, int priority, String location, Calendar dueTime, String assignee, String status, String accept, String taskName) {
+    public TaskItem(String category, int priority, String location, Date dueTime, String assignee, String status, String accept, String taskName) {
         this.category = category;
         this.priority = priority;
         this.location = location;
@@ -67,11 +67,11 @@ public class TaskItem {
         this.location = location;
     }
 
-    public Calendar getDueTime() {
+    public Date getDueTime() {
         return dueTime;
     }
 
-    public void setDueTime(Calendar cal) {
+    public void setDueTime(Date cal) {
         this.dueTime = dueTime;
     }
 
