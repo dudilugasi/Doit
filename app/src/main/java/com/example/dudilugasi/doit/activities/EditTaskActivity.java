@@ -44,7 +44,8 @@ import java.util.Locale;
 public class EditTaskActivity extends AppCompatActivity {
 
     private String name;
-    private Calendar date;
+    private Date date = new Date();
+    private Calendar calendar = Calendar.getInstance();
     private int priority;
     private String category;
     private String room;
@@ -77,7 +78,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
                     int len = userList.size();
                     String[] list1Strings22 = new String[len];
-                   // list1Strings22[0] = "test";
+                    // list1Strings22[0] = "test";
 
                     for (int i = 0; i < len; i++) {
                         list1Strings22[i] = userList.get(i).toString();
@@ -87,8 +88,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     toast.show();
                     ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(EditTaskActivity.this, android.R.layout.simple_spinner_dropdown_item, list1Strings22);
                     users.setAdapter(stringArrayAdapter);
-                    
-                else {
+
+                } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -104,7 +105,7 @@ public class EditTaskActivity extends AppCompatActivity {
         asignee = intent.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
         name = intent.getStringExtra(Constants.NEW_TASK_NAME);
             
-            taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
+        taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
 
             if(name != null){ date = (Date) intent.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);}
         else{date.setTime(0);}
@@ -179,15 +180,15 @@ public class EditTaskActivity extends AppCompatActivity {
 
         EditText time = (EditText) findViewById(R.id.time_text); // time
         String[] time1 = time.getText().toString().split(":");
-        this.date.set(date.HOUR_OF_DAY, Integer.parseInt(time1[0]));
-        this.date.set(date.MINUTE , Integer.parseInt(time1[1]));
+        this.calendar.set(calendar.HOUR_OF_DAY, Integer.parseInt(time1[0]));
+        this.calendar.set(calendar.MINUTE , Integer.parseInt(time1[1]));
 
         time = (EditText) findViewById(R.id.date_text); //date
         String[] date1 = time.getText().toString().split("/");
-        this.date.set(date.DATE, Integer.parseInt(date1[0]));
-        this.date.set(date.MONTH, Integer.parseInt(date1[1]));
-        this.date.set(date.YEAR, Integer.parseInt(date1[2]));
-
+        this.calendar.set(calendar.DATE, Integer.parseInt(date1[0]));
+        this.calendar.set(calendar.MONTH, Integer.parseInt(date1[1]));
+        this.calendar.set(calendar.YEAR, Integer.parseInt(date1[2]));
+        date = calendar.getTime();
 
 
 
@@ -203,6 +204,7 @@ public class EditTaskActivity extends AppCompatActivity {
         intent.putExtra(Constants.NEW_TASK_PRIORITY,priority);
         intent.putExtra(Constants.NEW_TASK_DUE_DATE, date);
         intent.putExtra(Constants.NEW_TASK_ASSIGNEE,asignee);
+        intent.putExtra(Constants.EDIT_TASK_ID,taskId);
         setResult(RESULT_OK, intent);
         finish();
     }

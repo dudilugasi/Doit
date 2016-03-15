@@ -269,7 +269,7 @@ public class DAO implements IDataAccess {
         }
         if (task.getDueTime() != null) {
 
-            po.put("dueTime", task.getDueTime().toString());
+            po.put("dueTime", task.getDueTime());
         }
         if (task.getLocation() != null ) {
 
