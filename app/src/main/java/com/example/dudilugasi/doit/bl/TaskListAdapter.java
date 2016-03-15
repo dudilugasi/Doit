@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,14 @@ import com.example.dudilugasi.doit.common.ItemClickListener;
 import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 
 /**
  * TaskListAdapter
@@ -69,14 +73,32 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
                 TaskItem task = taskItems.get(position);
 
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.US);
+
                 if (loginController.isAdmin()) {
                     Intent intent = new Intent(context, EditTaskActivity.class);
                     intent.putExtra(Constants.EDIT_TASK_ID, task.getId());
+                    intent.putExtra(Constants.NEW_TASK_CATEGORY, task.getCategory());
+                    intent.putExtra(Constants.NEW_TASK_PRIORITY, task.getPriority());
+                    intent.putExtra(Constants.NEW_TASK_ASSIGNEE, task.getAssignee());
+                    intent.putExtra(Constants.NEW_TASK_LOCATION, task.getLocation());
+                    intent.putExtra(Constants.NEW_TASK_STATUS, task.getStatus());
+                    intent.putExtra(Constants.NEW_TASK_ACCEPT, task.getAccept());
+                    intent.putExtra(Constants.NEW_TASK_NAME, task.getTaskName());
+                    intent.putExtra(Constants.NEW_TASK_DUE_DATE, task.getDueTime());
                     ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
                 } else {
                     Intent intent = new Intent(context, ReportTaskActivity.class);
                     intent.putExtra(Constants.EDIT_TASK_ID, task.getId());
-                    ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_TASK);
+                    intent.putExtra(Constants.NEW_TASK_CATEGORY, task.getCategory());
+                    intent.putExtra(Constants.NEW_TASK_PRIORITY, task.getPriority());
+                    intent.putExtra(Constants.NEW_TASK_ASSIGNEE, task.getAssignee());
+                    intent.putExtra(Constants.NEW_TASK_LOCATION, task.getLocation());
+                    intent.putExtra(Constants.NEW_TASK_STATUS, task.getStatus());
+                    intent.putExtra(Constants.NEW_TASK_ACCEPT, task.getAccept());
+                    intent.putExtra(Constants.NEW_TASK_NAME, task.getTaskName());
+                    intent.putExtra(Constants.NEW_TASK_DUE_DATE, sdf.format(task.getDueTime()));
+                    ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_REPORT_TASK);
                 }
             }
         });
@@ -153,7 +175,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         else {
             for (int i = 0; i < this.taskItems.size() ; i++ ) {
                 if (this.taskItems.get(i).getId().equals(task.getId())) {
-                    this.taskItems.set(i,task);
+                    this.taskItems.set(i, task);
                     break;
                 }
             }
@@ -164,6 +186,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     public void updateList(List<TaskItem> data) {
         taskItems = data;
         notifyDataSetChanged();
+    }
+
+    public TaskItem getTask(String id) {
+        for (int i = 0; i < this.taskItems.size() ; i++ ) {
+            if (this.taskItems.get(i).getId().equals(id)) {
+                return this.taskItems.get(i);
+            }
+        }
+        return null;
     }
 
 

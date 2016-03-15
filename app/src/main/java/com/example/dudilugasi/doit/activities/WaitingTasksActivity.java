@@ -214,7 +214,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
             String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
-            Calendar dueDate = (Calendar) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
+            Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
 
             TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);
             controller.addTask(task);
@@ -233,7 +233,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
             String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
-            Calendar dueDate = (Calendar) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
+            Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
             String imageurl = data.getStringExtra(Constants.NEW_TASK_IMAGEURL);
 
             TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);

@@ -241,14 +241,12 @@ public class DAO implements IDataAccess {
     }
 
     private TaskItem parseObjectToTask(ParseObject object) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(object.getDate("dueTime"));
         TaskItem t = new TaskItem();
         t.setId(object.getObjectId());
         t.setAccept(object.getString("accept"));
         t.setCategory(object.getString("category"));
         t.setAssignee(object.getString("assignee"));
-        t.setDueTime(cal);
+        t.setDueTime(object.getDate("dueTime"));
         t.setLocation(object.getString("location"));
         t.setPriority(object.getInt("priority"));
         t.setStatus(object.getString("status"));
