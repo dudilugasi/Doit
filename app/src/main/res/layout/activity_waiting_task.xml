@@ -118,7 +118,8 @@
                 android:id="@+id/add_task_button"
                 android:layout_marginTop="0dp"
                 android:nestedScrollingEnabled="false"
-                android:onClick="addNewTaskButtonClicked" />
+                android:onClick="addNewTaskButtonClicked"
+                android:contentDescription="" />
         </RelativeLayout>
 
 

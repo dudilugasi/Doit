@@ -43,6 +43,17 @@
     <string name="normal">normal</string>
     <string name="urgent">urgent</string>
     <string name="logout">log out</string>
+    <string name="task_info">Task Info</string>
+    <string name="category_label">category:</string>
+    <string name="priority_label">Priority:</string>
+    <string name="location_label">Location:</string>
+    <string name="due_date">Due Date:</string>
+    <string name="status">Status</string>
+    <string name="accept_status_label">accept:</string>
+    <string name="accept">Accept</string>
+    <string name="status_label">status: </string>
+    <string name="add_photo">add photo</string>
+    <string name="save">save</string>
 
     <string-array name="arrange_by">
         <item>Due Date</item>
