@@ -211,8 +211,8 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
             String location = data.getStringExtra(Constants.NEW_TASK_LOCATION);
-            String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
-            String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
+            String status = "waiting";
+            String accept = "waiting";
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
             Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
 
@@ -230,8 +230,8 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
             String location = data.getStringExtra(Constants.NEW_TASK_LOCATION);
-            String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
-            String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
+            String status = "waiting";
+            String accept = "waiting";
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
             String TaskId = data.getStringExtra(Constants.EDIT_TASK_ID);
             Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);

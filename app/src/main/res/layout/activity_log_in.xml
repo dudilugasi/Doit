@@ -48,17 +48,7 @@
         android:layout_below="@+id/user_name_field"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:inputType="phone"
-        android:singleLine="true"
-        android:gravity="center"
-        android:hint="@string/phone_field"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
-        android:id="@+id/phone_field"
-        android:background="#ffffff"
-        android:layout_below="@+id/password_field"
-        android:layout_centerHorizontal="true" />
+
 
     <Button
         android:layout_width="wrap_content"
@@ -67,14 +57,14 @@
         android:id="@+id/sign_up_button"
         android:layout_alignParentBottom="false"
         android:layout_marginBottom="65dp"
-        android:layout_alignLeft="@+id/phone_field"
-        android:layout_alignStart="@+id/phone_field"
-        android:layout_alignRight="@+id/phone_field"
-        android:layout_alignEnd="@+id/phone_field"
+        android:layout_alignLeft="@+id/password_field"
+        android:layout_alignStart="@+id/password_field"
+        android:layout_alignRight="@+id/password_field"
+        android:layout_alignEnd="@+id/password_field"
         android:background="#2196F3"
         android:textColor="#ffffff"
         android:layout_marginTop="50dp"
-        android:layout_below="@+id/phone_field" />
+        android:layout_below="@+id/password_field" />
 
 
 </RelativeLayout>
