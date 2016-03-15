@@ -272,7 +272,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
 
                 Toast.makeText(this,"Task accepted and task is " + status ,Toast.LENGTH_LONG).show();
             }
-            if (accept.equals("rehect")) {
+            if (accept.equals("reject")) {
                 Toast.makeText(this,"Task rejected",Toast.LENGTH_LONG).show();
 
             }
