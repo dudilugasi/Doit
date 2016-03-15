@@ -31,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.io.Console;
 import java.sql.Time;
@@ -69,19 +70,20 @@ public class EditTaskActivity extends AppCompatActivity {
         final Spinner users = (Spinner) findViewById(R.id.person_name_spinner);
 
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
         //query.whereEqualTo("Boy", tf3.getText().toString());   //This is to filter things!
-        query.selectKeys(Arrays.asList("username"));
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> userList, ParseException e) {
+        //query.selectKeys(Arrays.asList("username"));
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> objects, ParseException e) {
                 if (e == null) {
 
-                    int len = userList.size();
+                    int len = objects.size();
                     String[] list1Strings22 = new String[len];
                     // list1Strings22[0] = "test";
 
                     for (int i = 0; i < len; i++) {
-                        list1Strings22[i] = userList.get(i).toString();
+                        list1Strings22[i] = objects.get(i).getString("username");
                     }
 
                     Toast toast = Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_LONG);
@@ -93,8 +95,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG);
                     toast.show();
                 }
-
             }
+
         });
 
 
