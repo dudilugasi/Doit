@@ -49,6 +49,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private String category;
     private String room;
     private String asignee;
+    private String taskId;
 
 
 
@@ -98,6 +99,7 @@ public class EditTaskActivity extends AppCompatActivity {
         room = intent.getStringExtra(Constants.NEW_TASK_LOCATION);
         asignee = intent.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
         name = intent.getStringExtra(Constants.NEW_TASK_NAME);
+        taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
         if(name == null){date = Calendar.getInstance();}
         else{date = (Calendar) intent.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);}
 
@@ -194,6 +196,7 @@ public class EditTaskActivity extends AppCompatActivity {
         intent.putExtra(Constants.NEW_TASK_PRIORITY,priority);
         intent.putExtra(Constants.NEW_TASK_DUE_DATE, date);
         intent.putExtra(Constants.NEW_TASK_ASSIGNEE,asignee);
+        intent.putExtra(Constants.EDIT_TASK_ID,taskId);
         setResult(RESULT_OK, intent);
         finish();
     }
