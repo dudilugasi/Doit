@@ -54,6 +54,7 @@
     <string name="status_label">status: </string>
     <string name="add_photo">add photo</string>
     <string name="save">save</string>
+    <string name="log_in">Log In</string>
 
     <string-array name="arrange_by">
         <item>Due Date</item>
