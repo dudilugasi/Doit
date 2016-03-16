@@ -1,6 +1,8 @@
 package com.example.dudilugasi.doit.common;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * class task item represents a task
@@ -11,7 +13,7 @@ public class TaskItem {
     private String category;
     private int priority;
     private String location;
-    private Date dueTime;
+    private Date dueTime = new Date();
     private String assignee;
     private String status;
     private String accept;
@@ -69,7 +71,7 @@ public class TaskItem {
         return dueTime;
     }
 
-    public void setDueTime(Date dueTime) {
+    public void setDueTime(Date cal) {
         this.dueTime = dueTime;
     }
 

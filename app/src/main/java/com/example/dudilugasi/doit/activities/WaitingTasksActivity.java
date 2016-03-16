@@ -41,6 +41,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -113,7 +114,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             controller.getWaitingTasksByAssignee(loginController.getUserName());
             //hide add new task button
             ImageButton add_task_button = (ImageButton) findViewById(R.id.add_task_button);
-            add_task_button.setVisibility(View.INVISIBLE);
+         //   add_task_button.setVisibility(View.INVISIBLE);
         }
 
         mRecyclerView.setAdapter(mAdapter);
@@ -210,15 +211,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
             String location = data.getStringExtra(Constants.NEW_TASK_LOCATION);
-            String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
-            String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
+            String status = "waiting";
+            String accept = "waiting";
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
             Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
 
             TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);
             controller.addTask(task);
             try {
-                mAdapter.add(task);
+               // mAdapter.add(task);
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -229,14 +230,14 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             int priority = data.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
             String assignee = data.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
             String location = data.getStringExtra(Constants.NEW_TASK_LOCATION);
-            String status = data.getStringExtra(Constants.NEW_TASK_STATUS);
-            String accept = data.getStringExtra(Constants.NEW_TASK_ACCEPT);
+            String status = "waiting";
+            String accept = "waiting";
             String name = data.getStringExtra(Constants.NEW_TASK_NAME);
+            String TaskId = data.getStringExtra(Constants.EDIT_TASK_ID);
             Date dueDate = (Date) data.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
-            String imageurl = data.getStringExtra(Constants.NEW_TASK_IMAGEURL);
 
             TaskItem task = new TaskItem(category, priority, location, dueDate, assignee, status, accept, name);
-            task.setImageUrl(imageurl);
+            task.setId(TaskId);
             controller.updateTask(task);
         }
 
@@ -271,7 +272,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
 
                 Toast.makeText(this,"Task accepted and task is " + status ,Toast.LENGTH_LONG).show();
             }
-            if (accept.equals("rehect")) {
+            if (accept.equals("reject")) {
                 Toast.makeText(this,"Task rejected",Toast.LENGTH_LONG).show();
 
             }

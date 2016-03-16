@@ -45,7 +45,6 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
 
         nameText = (TextView) findViewById(R.id.user_name_field);
         passwordText = (TextView) findViewById(R.id.password_field);
-        phoneText = (TextView) findViewById(R.id.phone_field);
         signUpButton = (Button)findViewById(R.id.sign_up_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override

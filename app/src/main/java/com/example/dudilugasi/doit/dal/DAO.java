@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.bl.TaskListAdapter;
@@ -26,6 +28,7 @@ import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +84,7 @@ public class DAO implements IDataAccess {
             public void done(final ParseObject po, ParseException e) {
                 if (e == null) {
                     taskToParseObject(po, task);
-                    po.put("image",file);
+                    po.put("image", file);
                     po.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -231,6 +234,7 @@ public class DAO implements IDataAccess {
             }
         });
     }
+
 
     private TaskItem cursorToTask(Cursor cursor) {
         return new TaskItem();
