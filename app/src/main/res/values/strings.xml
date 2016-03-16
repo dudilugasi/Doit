@@ -21,7 +21,7 @@
     <string name="waiting_tasks_counter_label">Tasks: </string>
 
     <string name="team_name_text">Team Name</string>
-    <string name="members">Members :</string>
+    <string name="members">Member number:\t</string>
     <string name="member_name">Member Name</string>
     <string name="member_mail">Member Mail</string>
     <string name="memeber_phone">Member Phone</string>
