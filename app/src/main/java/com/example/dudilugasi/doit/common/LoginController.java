@@ -50,7 +50,7 @@ public class LoginController {
         }
     }
 
-    public void logout() {
+    public static void logout() {
         ParseUser.logOut();
     }
 }
