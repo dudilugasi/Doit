@@ -101,6 +101,16 @@
             android:layout_below="@+id/plus_buttun"
             android:layout_centerHorizontal="true"
              />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="1"
+            android:id="@+id/member_num"
+            android:layout_above="@+id/mamber_name_input"
+            android:layout_toRightOf="@+id/members_text"
+            android:layout_toEndOf="@+id/members_text" />
     </RelativeLayout>
 
 </RelativeLayout>

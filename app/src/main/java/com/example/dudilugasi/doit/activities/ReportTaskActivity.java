@@ -147,15 +147,17 @@ public class ReportTaskActivity extends AppCompatActivity implements OnItemSelec
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     ParseFile image = (ParseFile) object.get("image");
-                    image.getDataInBackground(new GetDataCallback() {
-                        @Override
-                        public void done(byte[] bytes, ParseException e) {
-                            if (e == null) {
-                                bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes .length);
-                                imageView.setImageBitmap(bitmap);
+                    if (null != image) {
+                        image.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] bytes, ParseException e) {
+                                if (e == null) {
+                                    bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    imageView.setImageBitmap(bitmap);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } else {
                     // something went wrong
                 }
