@@ -116,8 +116,9 @@ public class ReportTaskActivity extends AppCompatActivity implements OnItemSelec
         //set selection according to task
         String statusValue = intent.getStringExtra(Constants.NEW_TASK_STATUS);
 
-        spinnerPosition = statusDataAdapter.getPosition(statusValue);
-        statusSpinner.setSelection(spinnerPosition);
+
+        Log.e("status",statusValue);
+
 
         showAddPhoto(statusValue);
 
