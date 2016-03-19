@@ -55,8 +55,7 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
     private String currentTab = "waiting";
     private int currentSortByPosition = 0;
     private String newTaskDialogReturned;
-
-
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
