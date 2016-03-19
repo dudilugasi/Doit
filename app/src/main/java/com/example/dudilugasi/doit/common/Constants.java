@@ -28,4 +28,9 @@ public class Constants {
 
 
     public static final String NEW_TASK_IMAGE_BYTES = "new_task_image_bytes";
+    public static final String APP_PREF = "doit_preferences";
+    public static final String UPDATE_EVERY = "doit_update_every";
+
+
+
 }

@@ -1,6 +1,9 @@
 package com.example.dudilugasi.doit;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,6 +65,11 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
                 //   startActivity(intent);
             }
         });
+
+        if (!isNetworkConnected()) {
+            Toast.makeText(this,"not connected",Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
@@ -74,5 +82,16 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
         if (code == Constants.USER_LOGGED_IN_FAILED) {
             Toast.makeText(this,"log in failed",Toast.LENGTH_LONG).show();
         }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            return true;
     }
 }

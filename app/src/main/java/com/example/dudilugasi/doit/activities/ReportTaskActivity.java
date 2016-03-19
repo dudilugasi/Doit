@@ -138,6 +138,7 @@ public class ReportTaskActivity extends AppCompatActivity implements OnItemSelec
         taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
 
 
+
         /*
         update image
          */
@@ -162,7 +163,6 @@ public class ReportTaskActivity extends AppCompatActivity implements OnItemSelec
                 }
             }
         });
-
 
     }
 

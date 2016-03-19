@@ -72,9 +72,15 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (R.id.tasks_action == id) {
+            Intent intent = new Intent(this,WaitingTasksActivity.class);
+            startActivity(intent);
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings_action) {
-            return true;
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
         }
 
         if (id == R.id.logout_action) {
@@ -82,6 +88,17 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             Intent intent = new Intent(this, LogInActivity.class);
             startActivity(intent);
         }
+
+        if (id == R.id.manage_action) {
+            Intent intent = new Intent(this, CreateTeamActivity.class);
+            startActivity(intent);
+        }
+        if (id == R.id.about_action) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -114,7 +131,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             controller.getWaitingTasksByAssignee(loginController.getUserName());
             //hide add new task button
             ImageButton add_task_button = (ImageButton) findViewById(R.id.add_task_button);
-         //   add_task_button.setVisibility(View.INVISIBLE);
+            add_task_button.setVisibility(View.INVISIBLE);
         }
 
         mRecyclerView.setAdapter(mAdapter);
