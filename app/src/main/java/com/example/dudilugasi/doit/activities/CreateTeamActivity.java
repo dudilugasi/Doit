@@ -1,11 +1,8 @@
 package com.example.dudilugasi.doit.activities;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,16 +11,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.bl.CreateTeamController;
 import com.example.dudilugasi.doit.bl.ICreateTeamController;
 import com.example.dudilugasi.doit.common.TeamMember;
+import com.example.dudilugasi.doit.common.ToolbarOptions;
 
 import java.util.ArrayList;
 
-public class CreateTeamActivity extends AppCompatActivity {
+public class CreateTeamActivity extends ToolbarOptions {
     private EditText name;
     private EditText mail;
     private EditText phone;
@@ -41,6 +37,12 @@ public class CreateTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
         controller = new CreateTeamController(this);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+           if(extras.getBoolean("add"))
+               ((EditText)findViewById(R.id.team_name_input)).setVisibility(View.GONE);
+            ((TextView)findViewById(R.id.create_team)).setText(R.string.add_members);
+        }
         name = (EditText)findViewById(R.id.mamber_name_input);
         mail = (EditText)findViewById(R.id.member_mail_input);
         phone = (EditText)findViewById(R.id.member_phone_input);
@@ -54,7 +56,7 @@ public class CreateTeamActivity extends AppCompatActivity {
             @Override
             //this is called when admin press on plus button
             public void onClick(View v) {
-                if(addMember()) {
+                if (addMember()) {
                     memberNumber.setText(String.valueOf(++memberNumberCounter));
                     name.setText("");      // reset inputs
                     mail.setText("");      //
@@ -66,8 +68,8 @@ public class CreateTeamActivity extends AppCompatActivity {
             @Override
             //this is called when admin press on send button
             public void onClick(View v) {
-                if(addMember()) //add last member entered
-                    sendMails() ;
+                if (addMember()) //add last member entered
+                    sendMails();
             }
         });
     }
@@ -117,24 +119,6 @@ public class CreateTeamActivity extends AppCompatActivity {
         }
         return false;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the menu
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.settings_action) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 }

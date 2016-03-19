@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.common.Constants;
+import com.example.dudilugasi.doit.common.ToolbarOptions;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends ToolbarOptions {
 
     EditText seconds;
 

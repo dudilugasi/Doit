@@ -55,6 +55,9 @@
     <string name="add_photo">add photo</string>
     <string name="save">save</string>
     <string name="log_in">Log In</string>
+    <string name="manage_team_text">Manage Team</string>
+    <string name="add">Add member</string>
+    <string name="add_members">Add members</string>
     <string name="settings_text">settings</string>
     <string name="update_every">update every:</string>
     <string name="seconds">seconds</string>
@@ -69,5 +72,7 @@
         <item>Priority</item>
         <item>Status</item>
     </string-array>
+    <string name="title_activity_manage_team">ManageTeamActivity</string>
+    <string name="team_members_text">team members</string>
 
 </resources>
