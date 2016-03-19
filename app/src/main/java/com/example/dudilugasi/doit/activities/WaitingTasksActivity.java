@@ -60,49 +60,6 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
     private int currentSortByPosition = 0;
     private String newTaskDialogReturned;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the menu
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (R.id.tasks_action == id) {
-            Intent intent = new Intent(this,WaitingTasksActivity.class);
-            startActivity(intent);
-        }
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.settings_action) {
-            Intent intent = new Intent(this,SettingsActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.logout_action) {
-            loginController.logout();
-            Intent intent = new Intent(this, LogInActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.manage_action) {
-            Intent intent = new Intent(this, CreateTeamActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.about_action) {
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
-        }
-
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
