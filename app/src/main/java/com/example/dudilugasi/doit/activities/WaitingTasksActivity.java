@@ -35,14 +35,10 @@ import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.common.ToolbarOptions;
-import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dialogs.NewTasksDialogFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.SaveCallback;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -60,49 +56,7 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
     private int currentSortByPosition = 0;
     private String newTaskDialogReturned;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the menu
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        if (R.id.tasks_action == id) {
-            Intent intent = new Intent(this,WaitingTasksActivity.class);
-            startActivity(intent);
-        }
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.settings_action) {
-            Intent intent = new Intent(this,SettingsActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.logout_action) {
-            loginController.logout();
-            Intent intent = new Intent(this, LogInActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.manage_action) {
-            Intent intent = new Intent(this, CreateTeamActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.about_action) {
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
-        }
-
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,29 +325,35 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
      */
     @Override
     public void onUpdate(List<TaskItem> tasks,int code) {
-        if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS) {
-            mAdapter.updateList(tasks);
-            updateTasksCount();
-        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE) {
-            try {
-                mAdapter.updateTask(tasks.get(0));
+        if(tasks.size()==0)
+            ((TextView)findViewById(R.id.empty_task)).setVisibility(View.VISIBLE);
+        else
+            ((TextView)findViewById(R.id.empty_task)).setVisibility(View.GONE);
 
-            } catch (DoitException e) {
-                e.printStackTrace();
+
+        if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS) {
+                mAdapter.updateList(tasks);
+                updateTasksCount();
+            } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE) {
+                try {
+                    mAdapter.updateTask(tasks.get(0));
+
+                } catch (DoitException e) {
+                    e.printStackTrace();
+                }
+            } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_DELETE) {
+                try {
+                    mAdapter.remove(tasks.get(0));
+                } catch (DoitException e) {
+                    e.printStackTrace();
+                }
+            } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ADD) {
+                try {
+                    mAdapter.add(tasks.get(0));
+                } catch (DoitException e) {
+                    e.printStackTrace();
+                }
             }
-        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_DELETE) {
-            try {
-                mAdapter.remove(tasks.get(0));
-            } catch (DoitException e) {
-                e.printStackTrace();
-            }
-        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ADD) {
-            try {
-                mAdapter.add(tasks.get(0));
-            } catch (DoitException e) {
-                e.printStackTrace();
-            }
-        }
 
         refreshList();
 

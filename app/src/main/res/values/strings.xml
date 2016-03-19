@@ -66,6 +66,8 @@
     <string name="version_text">Version:</string>
     <string name="app_version">1.0.0</string>
     <string name="tasks">tasks</string>
+    <string name="sign_up">sign up</string>
+    <string name="admin_notice">you are the admin!</string>
 
     <string-array name="arrange_by">
         <item>Due Date</item>
@@ -74,5 +76,6 @@
     </string-array>
     <string name="title_activity_manage_team">ManageTeamActivity</string>
     <string name="team_members_text">team members</string>
+    <string name="no_task">no tasks</string>
 
 </resources>

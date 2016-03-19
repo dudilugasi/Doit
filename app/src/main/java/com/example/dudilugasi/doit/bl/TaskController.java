@@ -1,14 +1,11 @@
 package com.example.dudilugasi.doit.bl;
 import android.content.Context;
-
 import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dal.IDataAccess;
 import com.parse.ParseFile;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class TaskController implements ITaskController{
 
     private IDataAccess dao;

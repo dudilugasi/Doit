@@ -1,9 +1,6 @@
 package com.example.dudilugasi.doit.bl;
-
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.example.dudilugasi.doit.common.TeamMember;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dal.IDataAccess;
@@ -21,13 +18,16 @@ public class CreateTeamController implements ICreateTeamController {
     }
 
     @Override
-    public void setMember(TeamMember member) {
+    public void setMember(TeamMember member, boolean admin) {
         ParseUser user = new ParseUser();
         user.setUsername(member.getName());
         user.setPassword(member.getPhone());
         user.setEmail(member.getEmail());
 // other fields can be set just like with ParseObject
-        user.put("admin", false);
+        if(admin)
+            user.put("admin", true);
+        else
+            user.put("admin", false);
         Log.e("in", "in");
         user.signUpInBackground(new SignUpCallback() {
             @Override

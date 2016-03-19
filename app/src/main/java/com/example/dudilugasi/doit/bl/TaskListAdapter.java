@@ -1,35 +1,23 @@
 package com.example.dudilugasi.doit.bl;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.activities.EditTaskActivity;
 import com.example.dudilugasi.doit.activities.ReportTaskActivity;
-import com.example.dudilugasi.doit.activities.WaitingTasksActivity;
 import com.example.dudilugasi.doit.common.Constants;
 import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.ItemClickListener;
 import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
 /**

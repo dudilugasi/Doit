@@ -76,6 +76,15 @@
                 android:id="@+id/waiting_list_counter" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/no_task"
+            android:visibility="gone"
+            android:id="@+id/empty_task"
+            android:layout_gravity="center_horizontal" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

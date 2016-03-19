@@ -1,5 +1,6 @@
 package com.example.dudilugasi.doit;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -13,7 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dudilugasi.doit.activities.CreateTeamActivity;
 import com.example.dudilugasi.doit.activities.WaitingTasksActivity;
+import com.example.dudilugasi.doit.bl.CreateTeamController;
 import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.common.Constants;
 import com.example.dudilugasi.doit.common.LoginController;
@@ -21,6 +24,9 @@ import com.example.dudilugasi.doit.common.TaskItem;
 import com.example.dudilugasi.doit.common.TeamMember;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dal.IDataAccess;
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -32,12 +38,29 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
     private TextView phoneText;
     private Button signUpButton;
     private LoginController loginController;
-
+    private boolean hasAdmin = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         getSupportActionBar().hide();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("admin", true);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, com.parse.ParseException e) {
+                if (e == null) {
+                    if(objects.size() > 0){
+                        hasAdmin=true;
+                    }
+                    else{
+                        ((TextView)findViewById(R.id.admin_text)).setText(R.string.admin_notice);
+                            signUpButton.setText(R.string.sign_up);
+                    }
+
+                }
+            }
+        });
 
         loginController = new LoginController(this);
 
@@ -49,20 +72,19 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
         nameText = (TextView) findViewById(R.id.user_name_field);
         passwordText = (TextView) findViewById(R.id.password_field);
         signUpButton = (Button)findViewById(R.id.sign_up_button);
+
+        final CreateTeamController controller = new CreateTeamController(this);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(hasAdmin)
+                    loginController.login(nameText.getText().toString(), passwordText.getText().toString());
+                else{
+                    controller.setMember(new TeamMember(nameText.getText().toString(),"admin@gmail.com", passwordText.getText().toString()),true);
+                    Intent intent = new Intent(LogInActivity.this, CreateTeamActivity.class);
+                    startActivity(intent);
+                }
 
-                loginController.login(nameText.getText().toString(), passwordText.getText().toString());
-                //*********call for authentication**********
-                //   Intent intent = new Intent(LogInActivity.this,***next activity***)
-                //   String text1 = nameText.getText().toString();
-                //   intent.putExtra("name",text1);
-                //   String text2 = passwordText.getText().toString();
-                //   intent.putExtra("pass",text2);
-                //   String text3 = phoneText.getText().toString();
-                //   intent.putExtra("phone", text3);
-                //   startActivity(intent);
             }
         });
 

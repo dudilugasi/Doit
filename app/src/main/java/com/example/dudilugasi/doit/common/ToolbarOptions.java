@@ -1,22 +1,26 @@
 package com.example.dudilugasi.doit.common;
-
+import android.content.ClipData;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.dudilugasi.doit.LogInActivity;
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.activities.AboutActivity;
-import com.example.dudilugasi.doit.activities.CreateTeamActivity;
 import com.example.dudilugasi.doit.activities.ManageTeamActivity;
 import com.example.dudilugasi.doit.activities.SettingsActivity;
 import com.example.dudilugasi.doit.activities.WaitingTasksActivity;
 
 
 public abstract class ToolbarOptions extends AppCompatActivity {
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(!LoginController.isAdmin())
+            menu.findItem(R.id.manage_action).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

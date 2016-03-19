@@ -1,8 +1,5 @@
 package com.example.dudilugasi.doit.common;
-
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * class task item represents a task

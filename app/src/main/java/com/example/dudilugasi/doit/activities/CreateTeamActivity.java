@@ -1,10 +1,7 @@
 package com.example.dudilugasi.doit.activities;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +13,6 @@ import com.example.dudilugasi.doit.bl.CreateTeamController;
 import com.example.dudilugasi.doit.bl.ICreateTeamController;
 import com.example.dudilugasi.doit.common.TeamMember;
 import com.example.dudilugasi.doit.common.ToolbarOptions;
-
 import java.util.ArrayList;
 
 public class CreateTeamActivity extends ToolbarOptions {
@@ -70,6 +66,8 @@ public class CreateTeamActivity extends ToolbarOptions {
             public void onClick(View v) {
                 if (addMember()) //add last member entered
                     sendMails();
+                Intent intent = new Intent(CreateTeamActivity.this, ManageTeamActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -77,7 +75,7 @@ public class CreateTeamActivity extends ToolbarOptions {
     public void sendMails(){
         String mails="";
         for (TeamMember t:teamMemberArray) {
-            controller.setMember(t);
+            controller.setMember(t,false);
             mails+="\"";
             mails+=t.getEmail();
             mails+="\",";
