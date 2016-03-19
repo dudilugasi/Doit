@@ -13,7 +13,6 @@
 
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="PzvUUt5rd3Ajg0wMIwW1x9OxLDOpXgflRf0fENJl" />
