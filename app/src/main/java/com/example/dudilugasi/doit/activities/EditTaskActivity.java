@@ -10,8 +10,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -52,6 +56,8 @@ public class EditTaskActivity extends AppCompatActivity {
     private String room;
     private String asignee;
     private String taskId;
+    private Bitmap bitmap;
+    private ImageView imageView;
 
 
 
@@ -61,6 +67,15 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
         Intent intent = getIntent();
+
+        category = intent.getStringExtra(Constants.NEW_TASK_CATEGORY);
+        priority = intent.getIntExtra(Constants.NEW_TASK_PRIORITY, 0);
+        room = intent.getStringExtra(Constants.NEW_TASK_LOCATION);
+        name = intent.getStringExtra(Constants.NEW_TASK_NAME);
+        taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
+        asignee = intent.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
+
+
         final String[] categories = {"Cleaning", "Electricity", "Computers", "General", "Other"};
         ArrayAdapter<String> stringArrayAdapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         Spinner spinner = (Spinner)  findViewById(R.id.task_category_spinner);
@@ -68,7 +83,6 @@ public class EditTaskActivity extends AppCompatActivity {
 
 
         final Spinner users = (Spinner) findViewById(R.id.person_name_spinner);
-
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
@@ -90,6 +104,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     toast.show();
                     ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(EditTaskActivity.this, android.R.layout.simple_spinner_dropdown_item, list1Strings22);
                     users.setAdapter(stringArrayAdapter);
+                    int spinnerPosition = stringArrayAdapter.getPosition(asignee);
+                    users.setSelection(spinnerPosition);
 
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG);
@@ -100,17 +116,8 @@ public class EditTaskActivity extends AppCompatActivity {
         });
 
 
-
-        category = intent.getStringExtra(Constants.NEW_TASK_CATEGORY);
-        priority = intent.getIntExtra(Constants.NEW_TASK_PRIORITY, 1);
-        room = intent.getStringExtra(Constants.NEW_TASK_LOCATION);
-        asignee = intent.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
-        name = intent.getStringExtra(Constants.NEW_TASK_NAME);
-            
-        taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
-
-            if(name != null){ date = (Date) intent.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);}
-        else{date.setTime(0);}
+        if(name != null){ date = (Date) intent.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);}
+          else{date.setTime(0);}
 
         EditText temp = (EditText) findViewById(R.id.task_name_text);
         temp.setText(name, TextView.BufferType.EDITABLE);
@@ -127,14 +134,45 @@ public class EditTaskActivity extends AppCompatActivity {
         temp = (EditText) findViewById(R.id.task_room_num);
         temp.setText(room, TextView.BufferType.EDITABLE);
 
+
         calendar.setTime(date);
         temp = (EditText) findViewById(R.id.time_text);
         temp.setText(calendar.get(calendar.HOUR_OF_DAY)+":"+calendar.get(calendar.HOUR_OF_DAY),TextView.BufferType.EDITABLE);
 
         temp = (EditText) findViewById(R.id.date_text);
-        temp.setText(calendar.get(calendar.DAY_OF_WEEK)+"/"+calendar.get(calendar.MONTH)+"/"+(calendar.get(calendar.YEAR)));
+        temp.setText(calendar.get(calendar.DAY_OF_WEEK) + "/" + calendar.get(calendar.MONTH) + "/" + (calendar.get(calendar.YEAR)));
 
 
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Task");
+        query1.getInBackground(taskId, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    ParseFile image = (ParseFile) object.get("image");
+                    if (null != image) {
+                        image.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] bytes, ParseException e) {
+                                if (e == null) {
+
+                                    LinearLayout statusLayout = (LinearLayout) findViewById(R.id.edit_task_status_container);
+                                    Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+                                    bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    if (bitmap.sameAs(emptyBitmap)) {
+                                        statusLayout.setVisibility(View.GONE);
+                                    } else {
+                                        statusLayout.setVisibility(View.VISIBLE);
+                                    }
+                                    imageView = (ImageView) findViewById(R.id.edit_task_image_view);
+                                    imageView.setImageBitmap(bitmap);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    // something went wrong
+                }
+            }
+        });
     }
 
 
@@ -150,12 +188,6 @@ public class EditTaskActivity extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
-
-
-
-
-
-
 
 
     public void onCancel(View v){
@@ -197,7 +229,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
 
         Spinner spp = (Spinner) findViewById(R.id.person_name_spinner);
-       // asignee = spp.getSelectedItem().toString();
+        asignee = spp.getSelectedItem().toString();
 
         Intent intent = new Intent(this, WaitingTasksActivity.class);
         intent.putExtra(Constants.NEW_TASK_NAME,name);
