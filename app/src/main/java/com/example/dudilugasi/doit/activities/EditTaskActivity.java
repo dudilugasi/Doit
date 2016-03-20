@@ -19,9 +19,15 @@ import android.widget.Toast;
 import com.example.dudilugasi.doit.R;
 import com.example.dudilugasi.doit.common.Constants;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +58,10 @@ public class EditTaskActivity extends AppCompatActivity {
         taskId = intent.getStringExtra(Constants.EDIT_TASK_ID);
         asignee = intent.getStringExtra(Constants.NEW_TASK_ASSIGNEE);
 
+        RadioGroup temp2 = (RadioGroup) findViewById(R.id.priority_radio_group);
+        RadioButton radioButton = (RadioButton) temp2.getChildAt(priority);
+        radioButton.setChecked(true);
+
 
         final String[] categories = {"Cleaning", "Electricity", "Computers", "General", "Other"};
         ArrayAdapter<String> stringArrayAdapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories);
@@ -77,24 +87,23 @@ public class EditTaskActivity extends AppCompatActivity {
                         list1Strings22[i] = objects.get(i).getString("username");
                     }
 
-                    Toast toast = Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_LONG);
-                    toast.show();
+
                     ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(EditTaskActivity.this, android.R.layout.simple_spinner_dropdown_item, list1Strings22);
                     users.setAdapter(stringArrayAdapter);
                     int spinnerPosition = stringArrayAdapter.getPosition(asignee);
                     users.setSelection(spinnerPosition);
 
                 } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG);
-                    toast.show();
+
                 }
             }
 
         });
 
 
-        if(name != null){ date = (Date) intent.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);}
-          else{date.setTime(0);}
+       date = (Date) intent.getSerializableExtra(Constants.NEW_TASK_DUE_DATE);
+
+
 
         EditText temp = (EditText) findViewById(R.id.task_name_text);
         temp.setText(name, TextView.BufferType.EDITABLE);
@@ -105,19 +114,41 @@ public class EditTaskActivity extends AppCompatActivity {
         temp1.setSelection(spinnerPosition);
 
 
-        RadioGroup temp2 = (RadioGroup) findViewById(R.id.radio_group);
-        temp2.check(priority);
+
 
         temp = (EditText) findViewById(R.id.task_room_num);
         temp.setText(room, TextView.BufferType.EDITABLE);
 
+        if(name == null){date = new Date();}
 
-        calendar.setTime(date);
+
+
+        String strCurrentDate = date.toString();
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM d k:m:s ZZZZ y");
+        Date newDate = null;
+        try {
+            newDate = format.parse(strCurrentDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        format = new SimpleDateFormat("k:m");
+        String sTime = format.format(newDate);
+        format = new SimpleDateFormat("d/MM/y");
+        String sDate = format.format(newDate);
+
+
+
+
+
+
+
+
         temp = (EditText) findViewById(R.id.time_text);
-        temp.setText(calendar.get(calendar.HOUR_OF_DAY)+":"+calendar.get(calendar.HOUR_OF_DAY),TextView.BufferType.EDITABLE);
+        temp.setText(sTime);
 
         temp = (EditText) findViewById(R.id.date_text);
-        temp.setText(calendar.get(calendar.DAY_OF_WEEK) + "/" + calendar.get(calendar.MONTH) + "/" + (calendar.get(calendar.YEAR)));
+        temp.setText(sDate);
 
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Task");
@@ -130,22 +161,21 @@ public class EditTaskActivity extends AppCompatActivity {
                             @Override
                             public void done(byte[] bytes, ParseException e) {
                                 if (e == null) {
-
-                                    LinearLayout statusLayout = (LinearLayout) findViewById(R.id.edit_task_status_container);
-                                    Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
                                     bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                    if (bitmap.sameAs(emptyBitmap)) {
-                                        statusLayout.setVisibility(View.GONE);
-                                    } else {
-                                        statusLayout.setVisibility(View.VISIBLE);
-                                    }
+                                    LinearLayout LS = (LinearLayout) findViewById(R.id.edit_task_status_container);
+                                    LS.setVisibility(LinearLayout.VISIBLE);
                                     imageView = (ImageView) findViewById(R.id.edit_task_image_view);
                                     imageView.setImageBitmap(bitmap);
                                 }
                             }
                         });
                     }
+                    LinearLayout LS = (LinearLayout) findViewById(R.id.edit_task_status_container);
+                    LS.setVisibility(LinearLayout.GONE);
+                    Toast toast = Toast.makeText(getApplicationContext(), "ELSE", Toast.LENGTH_LONG);
+                    toast.show();
                 } else {
+
                     // something went wrong
                 }
             }
@@ -174,7 +204,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         EditText tmp = (EditText) findViewById(R.id.task_name_text);//task name
         name = tmp.getText().toString();
-        RadioGroup rg1 = (RadioGroup) findViewById(R.id.radio_group);//priority
+        RadioGroup rg1 = (RadioGroup) findViewById(R.id.priority_radio_group);//priority
         if (rg1.getCheckedRadioButtonId() != -1) {
             int id = rg1.getCheckedRadioButtonId();
             View radioButton = rg1.findViewById(id);
@@ -197,7 +227,7 @@ public class EditTaskActivity extends AppCompatActivity {
         time = (EditText) findViewById(R.id.date_text); //date
         String[] date1 = time.getText().toString().split("/");
         this.calendar.set(calendar.DATE, Integer.parseInt(date1[0]));
-        this.calendar.set(calendar.MONTH, Integer.parseInt(date1[1]));
+        this.calendar.set(calendar.MONTH, Integer.parseInt(date1[1])-1);
         this.calendar.set(calendar.YEAR, Integer.parseInt(date1[2]));
         date = calendar.getTime();
 
