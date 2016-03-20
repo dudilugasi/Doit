@@ -1,9 +1,11 @@
 package com.example.dudilugasi.doit.common;
+<<<<<<< HEAD
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+=======
+>>>>>>> 5868fe7ab9d952160f2f9357763b16a3b817425b
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * class task item represents a task

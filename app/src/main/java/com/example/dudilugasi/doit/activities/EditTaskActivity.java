@@ -1,14 +1,9 @@
 package com.example.dudilugasi.doit.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,31 +15,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.example.dudilugasi.doit.R;
-import com.example.dudilugasi.doit.bl.ITaskController;
-import com.example.dudilugasi.doit.bl.TaskController;
 import com.example.dudilugasi.doit.common.Constants;
-import com.example.dudilugasi.doit.dal.IDataAccess;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import java.io.Console;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -58,9 +38,6 @@ public class EditTaskActivity extends AppCompatActivity {
     private String taskId;
     private Bitmap bitmap;
     private ImageView imageView;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

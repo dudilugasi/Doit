@@ -1,8 +1,5 @@
 package com.example.dudilugasi.doit.common;
-
 import android.content.Context;
-import android.util.Log;
-
 import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.dal.DAO;
 import com.example.dudilugasi.doit.dal.IDataAccess;
@@ -18,7 +15,7 @@ public class LoginController {
         dao.setLoginListener((LoginListener) context);
     }
 
-    public boolean isAdmin() {
+    public static boolean isAdmin() {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -50,7 +47,7 @@ public class LoginController {
         }
     }
 
-    public void logout() {
+    public static void logout() {
         ParseUser.logOut();
     }
 }

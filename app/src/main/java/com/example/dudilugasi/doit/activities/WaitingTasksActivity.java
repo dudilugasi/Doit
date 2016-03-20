@@ -34,18 +34,15 @@ import com.example.dudilugasi.doit.common.Constants;
 import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.LoginController;
 import com.example.dudilugasi.doit.common.TaskItem;
-import com.example.dudilugasi.doit.dal.DAO;
+import com.example.dudilugasi.doit.common.ToolbarOptions;
 import com.example.dudilugasi.doit.dialogs.NewTasksDialogFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.SaveCallback;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WaitingTasksActivity extends AppCompatActivity implements LoginListener ,TaskUpdateListener,AdapterView.OnItemSelectedListener ,SwipeRefreshLayout.OnRefreshListener, NewTasksDialogFragment.NewTaskDialogListener
+public class WaitingTasksActivity extends ToolbarOptions implements LoginListener ,TaskUpdateListener,AdapterView.OnItemSelectedListener ,SwipeRefreshLayout.OnRefreshListener, NewTasksDialogFragment.NewTaskDialogListener
 {
 
     private static final String TAG = WaitingTasksActivity.class.getName();
@@ -58,33 +55,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
     private String currentTab = "waiting";
     private int currentSortByPosition = 0;
     private String newTaskDialogReturned;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the menu
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.settings_action) {
-            return true;
-        }
-
-        if (id == R.id.logout_action) {
-            loginController.logout();
-            Intent intent = new Intent(this, LogInActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +85,7 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
             controller.getWaitingTasksByAssignee(loginController.getUserName());
             //hide add new task button
             ImageButton add_task_button = (ImageButton) findViewById(R.id.add_task_button);
-         //   add_task_button.setVisibility(View.INVISIBLE);
+            add_task_button.setVisibility(View.INVISIBLE);
         }
 
         mRecyclerView.setAdapter(mAdapter);
@@ -353,29 +324,35 @@ public class WaitingTasksActivity extends AppCompatActivity implements LoginList
      */
     @Override
     public void onUpdate(List<TaskItem> tasks,int code) {
-        if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS) {
-            mAdapter.updateList(tasks);
-            updateTasksCount();
-        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE) {
-            try {
-                mAdapter.updateTask(tasks.get(0));
+        if(tasks.size()==0)
+            ((TextView)findViewById(R.id.empty_task)).setVisibility(View.VISIBLE);
+        else
+            ((TextView)findViewById(R.id.empty_task)).setVisibility(View.GONE);
 
-            } catch (DoitException e) {
-                e.printStackTrace();
+
+        if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS) {
+                mAdapter.updateList(tasks);
+                updateTasksCount();
+            } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_UPDATE) {
+                try {
+                    mAdapter.updateTask(tasks.get(0));
+
+                } catch (DoitException e) {
+                    e.printStackTrace();
+                }
+            } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_DELETE) {
+                try {
+                    mAdapter.remove(tasks.get(0));
+                } catch (DoitException e) {
+                    e.printStackTrace();
+                }
+            } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ADD) {
+                try {
+                    mAdapter.add(tasks.get(0));
+                } catch (DoitException e) {
+                    e.printStackTrace();
+                }
             }
-        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_DELETE) {
-            try {
-                mAdapter.remove(tasks.get(0));
-            } catch (DoitException e) {
-                e.printStackTrace();
-            }
-        } else if (code == Constants.TASK_UPDATE_LISTENER_CODE_ALL_ADD) {
-            try {
-                mAdapter.add(tasks.get(0));
-            } catch (DoitException e) {
-                e.printStackTrace();
-            }
-        }
 
         refreshList();
 

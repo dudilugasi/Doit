@@ -2,20 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Settings, should always be in the overflow -->
+
+    <item android:id="@+id/tasks_action"
+    android:title="@string/tasks"
+        android:icon="@drawable/tasks_icon"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/about_action"
+        android:title="@string/about"
+        android:icon="@drawable/white_info_icon"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/settings_action"
     android:title="@string/settings"
-    android:icon="@drawable/settings_action_logo"
-    app:showAsAction="collapseActionView"/>
+    android:icon="@drawable/settings_logo_light"
+    app:showAsAction="ifRoom"/>
     <item android:id="@+id/manage_action"
         android:title="@string/manage"
         android:icon="@drawable/manage_icon"
-        app:showAsAction="collapseActionView"/>
-    <item android:id="@+id/about_action"
-        android:title="@string/about"
-        android:icon="@drawable/info_icon"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/logout_action"
         android:title="@string/logout"
-        android:icon="@drawable/info_icon"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="ifRoom" />
+
 </menu>

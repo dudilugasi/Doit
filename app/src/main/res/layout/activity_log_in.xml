@@ -66,5 +66,15 @@
         android:layout_marginTop="50dp"
         android:layout_below="@+id/password_field" />
 
+    <TextView
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:id="@+id/admin_text"
+        android:layout_below="@+id/logo_doit"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

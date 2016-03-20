@@ -1,20 +1,11 @@
 package com.example.dudilugasi.doit.dal;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-
 import com.example.dudilugasi.doit.bl.LoginListener;
-import com.example.dudilugasi.doit.bl.TaskListAdapter;
 import com.example.dudilugasi.doit.bl.TaskUpdateListener;
 import com.example.dudilugasi.doit.common.Constants;
-import com.example.dudilugasi.doit.common.DoitException;
 import com.example.dudilugasi.doit.common.TaskItem;
-import com.example.dudilugasi.doit.common.TeamMember;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -25,11 +16,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

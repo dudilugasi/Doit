@@ -1,6 +1,5 @@
 package com.example.dudilugasi.doit.dal;
 
-
 import android.provider.BaseColumns;
 
 public class TasksDbContract {

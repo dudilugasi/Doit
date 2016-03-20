@@ -1,5 +1,4 @@
 package com.example.dudilugasi.doit.activities;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;

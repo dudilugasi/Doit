@@ -1,5 +1,4 @@
 package com.example.dudilugasi.doit.activities;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -7,14 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.EditText;
-
 import com.example.dudilugasi.doit.R;
-
 import java.util.Calendar;
 
-/**
- * Created by tamiir on 17/01/2016.
- */
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 

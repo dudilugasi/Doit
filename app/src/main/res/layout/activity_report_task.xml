@@ -193,7 +193,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/info_icon"
+<<<<<<< HEAD
 
+=======
+                android:scaleType="fitXY"
+>>>>>>> 5868fe7ab9d952160f2f9357763b16a3b817425b
                 android:layout_gravity="center_horizontal" />
 
 
