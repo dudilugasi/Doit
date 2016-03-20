@@ -30,9 +30,10 @@
 
         <activity android:name=".activities.ReportTaskActivity" >
 
-
         </activity>
+
         <activity android:name=".activities.EditTaskActivity" >
+
          </activity>
 
         <activity android:name=".activities.CreateTeamActivity" >

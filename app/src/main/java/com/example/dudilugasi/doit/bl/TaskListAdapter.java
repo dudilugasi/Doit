@@ -97,7 +97,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                     intent.putExtra(Constants.NEW_TASK_STATUS, task.getStatus());
                     intent.putExtra(Constants.NEW_TASK_ACCEPT, task.getAccept());
                     intent.putExtra(Constants.NEW_TASK_NAME, task.getTaskName());
+
                     intent.putExtra(Constants.NEW_TASK_DUE_DATE, sdf.format(task.getDueTime()));
+
+                    intent.putExtra(Constants.NEW_TASK_DUE_DATE, sdf.format(task.getDueTime().getTime()));
+
                     ((Activity) context).startActivityForResult(intent, Constants.REQUEST_CODE_REPORT_TASK);
                 }
             }
