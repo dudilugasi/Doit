@@ -64,10 +64,12 @@ public class CreateTeamActivity extends ToolbarOptions {
             @Override
             //this is called when admin press on send button
             public void onClick(View v) {
-                if (addMember()) //add last member entered
+                if (addMember()) { //add last member entered
+                    Intent intent = new Intent(CreateTeamActivity.this, ManageTeamActivity.class);
+                    startActivity(intent);
                     sendMails();
-                Intent intent = new Intent(CreateTeamActivity.this, ManageTeamActivity.class);
-                startActivity(intent);
+                }
+
             }
         });
     }
