@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dudilugasi.doit">
+    package="ac.shenkar.software.doit">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+
         android:name=".Doit"
         android:allowBackup="true"
         android:icon="@mipmap/doit"
@@ -18,9 +19,11 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="rLzbsCUzlZnJiLKduMZwcVLKVduEVxSxIOw4XX91" />
+
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,7 +48,5 @@
                 android:resource="@xml/simple_widget_info" />
         </receiver>
     </application>
-
-
 
 </manifest>
