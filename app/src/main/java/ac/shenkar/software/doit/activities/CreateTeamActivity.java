@@ -36,7 +36,7 @@ public class CreateTeamActivity extends ToolbarOptions {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
            if(extras.getBoolean("add"))
-               ((EditText)findViewById(R.id.team_name_input)).setVisibility(View.GONE);
+               findViewById(R.id.team_name_input).setVisibility(View.GONE);
             ((TextView)findViewById(R.id.create_team)).setText(R.string.add_members);
         }
         name = (EditText)findViewById(R.id.mamber_name_input);
@@ -87,6 +87,7 @@ public class CreateTeamActivity extends ToolbarOptions {
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{mails});
         i.putExtra(Intent.EXTRA_SUBJECT, "Invitation to Join OTS team");
         i.putExtra(Intent.EXTRA_TEXT, "Hi, You have been invited to be a team member in an OTS Team created by me.\n" +
+                "your user name is your name , and your password is your phone number\n" +
                 "Use this link to download and install the App from Google Play\n" +
                 "https://play.google.com/store/apps/details?id=ac.shenkar.software.doit");
         try {
@@ -104,7 +105,7 @@ public class CreateTeamActivity extends ToolbarOptions {
                 return false;
         }
         String phone = member.getPhone();
-        if (phone.contains("[a-zA-Z]+") == true || phone.length() < 10) {
+        if (phone.contains("[a-zA-Z]+") || phone.length() < 10) {
             new AlertDialog.Builder(this).setTitle("invalid phone").setMessage("please enter a valid phone").setNeutralButton("Close", null).show();
             return false;
         }
@@ -112,7 +113,6 @@ public class CreateTeamActivity extends ToolbarOptions {
     }
     //creates a team member, verifies the inputs, and creates the member on the parse DB.
     public boolean addMember(){
-       // teamName = ((EditText)findViewById(R.id.team_name_input)).getText().toString();
         TeamMember teamMember = new TeamMember(name.getText().toString(),mail.getText().toString(),phone.getText().toString());
         if (verify(teamMember)) {
             teamMemberArray.add(teamMember);
