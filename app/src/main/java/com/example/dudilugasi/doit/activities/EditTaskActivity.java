@@ -176,8 +176,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     }
                     LinearLayout LS = (LinearLayout) findViewById(R.id.edit_task_status_container);
                     LS.setVisibility(LinearLayout.GONE);
-                    Toast toast = Toast.makeText(getApplicationContext(), "ELSE", Toast.LENGTH_LONG);
-                    toast.show();
+                   
                 } else {
 
                     // something went wrong
