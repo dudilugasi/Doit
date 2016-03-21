@@ -1,5 +1,6 @@
 package ac.shenkar.software.doit;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -82,7 +83,7 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
         });
 
         if (!isNetworkConnected()) {
-            Toast.makeText(this,"not connected",Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(this).setTitle("not internet").setMessage("please connect to the internet").setNeutralButton("Close", null).show();
         }
 
     }
@@ -95,7 +96,7 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
         }
 
         if (code == Constants.USER_LOGGED_IN_FAILED) {
-            Toast.makeText(this,"log in failed",Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(this).setTitle("login failed").setMessage("wrong user name or password  ").setNeutralButton("Close", null).show();
         }
     }
 
