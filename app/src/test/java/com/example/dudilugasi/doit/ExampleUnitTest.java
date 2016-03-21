@@ -1,4 +1,4 @@
-package com.example.dudilugasi.doit;
+package com.shenkar.software.doit;
 
 import org.junit.Test;
 

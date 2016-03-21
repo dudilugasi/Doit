@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".activities.ManageTeamActivity">
+    tools:context="ac.shenkar.software.doit.activities.ManageTeamActivity">
     <TextView
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
