@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import ac.shenkar.software.doit.R;
 import ac.shenkar.software.doit.activities.EditTaskActivity;
 import ac.shenkar.software.doit.activities.ReportTaskActivity;
 import ac.shenkar.software.doit.common.Constants;
@@ -54,6 +55,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         holder.mTvTaskName.setText(item.getTaskName());
         holder.mTvAssignee.setText(item.getAssignee());
         holder.mTvCategory.setText(item.getCategory());
+        holder.mTvStatus.setText(item.getStatus());
 
         holder.setClickListener(new ItemClickListener() {
             @Override
@@ -108,12 +110,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         private TextView mTvTaskName;
         private TextView mTvAssignee;
         private TextView mTvCategory;
+        private TextView mTvStatus;
         private ItemClickListener clickListener;
         public ViewHolder(View parentView) {
             super(parentView);
             mTvTaskName = (TextView) parentView.findViewById(ac.shenkar.software.doit.R.id.task_card_view_name);
             mTvAssignee = (TextView) parentView.findViewById(ac.shenkar.software.doit.R.id.task_card_view_assignee);
             mTvCategory = (TextView) parentView.findViewById(ac.shenkar.software.doit.R.id.task_card_view_category);
+            mTvStatus = (TextView) parentView.findViewById(R.id.task_card_view_status);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
