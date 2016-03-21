@@ -10,9 +10,7 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-/**
- * Created by tamiir on 17/01/2016.
- */
+
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
