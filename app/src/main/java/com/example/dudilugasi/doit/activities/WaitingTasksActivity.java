@@ -230,7 +230,7 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
 
             if (imageBytes != null) {
 
-                final ParseFile file = new ParseFile(task.getTaskName() + ".jpg" , imageBytes);
+                final ParseFile file = new ParseFile(task.getTaskName().trim().replace(" ","_") + ".jpg" , imageBytes);
 
                 file.saveInBackground(new SaveCallback() {
                     @Override
