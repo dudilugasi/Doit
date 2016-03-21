@@ -119,7 +119,11 @@ public class EditTaskActivity extends AppCompatActivity {
         temp = (EditText) findViewById(R.id.task_room_num);
         temp.setText(room, TextView.BufferType.EDITABLE);
 
-        if(name == null){date = new Date();}
+        if(name == null){
+            date = new Date();
+            LinearLayout LS = (LinearLayout) findViewById(R.id.edit_task_status_container);
+            LS.setVisibility(LinearLayout.GONE);
+        }
 
 
 

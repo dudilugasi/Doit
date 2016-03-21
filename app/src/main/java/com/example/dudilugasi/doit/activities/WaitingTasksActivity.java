@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.dudilugasi.doit.LogInActivity;
 import com.example.dudilugasi.doit.R;
+import com.example.dudilugasi.doit.SimpleWidgetProvider;
 import com.example.dudilugasi.doit.bl.ITaskController;
 import com.example.dudilugasi.doit.bl.LoginListener;
 import com.example.dudilugasi.doit.bl.TaskController;
@@ -156,6 +157,11 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
         int tasksCount = mAdapter.getItemCount();
         TextView taskCount = (TextView) findViewById(R.id.waiting_list_counter);
         taskCount.setText(Integer.toString(tasksCount));
+        if(currentTab.equals("waiting")) {    // update widget counter
+            Intent intent = new Intent(SimpleWidgetProvider.ACTION_TEXT_CHANGED);
+            intent.putExtra("NewString", String.valueOf(tasksCount));
+            getApplicationContext().sendBroadcast(intent);
+        }
     }
 
     /**

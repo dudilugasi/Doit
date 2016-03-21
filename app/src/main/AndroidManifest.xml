@@ -6,12 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-
         android:name=".Doit"
         android:allowBackup="true"
         android:icon="@mipmap/doit"
         android:label="@string/app_name"
-
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -20,40 +18,34 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="rLzbsCUzlZnJiLKduMZwcVLKVduEVxSxIOw4XX91" />
-
         <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
         <activity android:name=".activities.WaitingTasksActivity">
-
         </activity>
-
         <activity android:name=".activities.ReportTaskActivity" >
-
         </activity>
-
         <activity android:name=".activities.EditTaskActivity" >
-
          </activity>
-
         <activity android:name=".activities.CreateTeamActivity" >
-
         </activity>
-=======
-        <activity android:name=".activities.WaitingTasksActivity" />
-        <activity android:name=".activities.CreateTeamActivity" />
-        <activity android:name=".activities.ReportTaskActivity" />
-        <activity android:name=".activities.EditTaskActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.ManageTeamActivity"/>
->>>>>>> 5868fe7ab9d952160f2f9357763b16a3b817425b
+
+        <receiver android:name="SimpleWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.TASK_COUNTER" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/simple_widget_info" />
+        </receiver>
     </application>
+
+
 
 </manifest>
