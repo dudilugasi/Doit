@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.dudilugasi.doit.bl.TaskListAdapter;
 
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -26,16 +27,18 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         for (int i = 0; i < count; i++) {
             int widgetId = appWidgetIds[i];
             String number = String.format((getCounter()));
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                    R.layout.simple_widget);
-            remoteViews.setTextViewText(R.id.textView, number);
-            Intent intent = new Intent(context, SimpleWidgetProvider.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.actionButton, pendingIntent);
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+            if(!number.equals("")) {
+                RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+                        R.layout.simple_widget);
+                remoteViews.setTextViewText(R.id.textView, number);
+                Intent intent = new Intent(context, SimpleWidgetProvider.class);
+                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                        0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                remoteViews.setOnClickPendingIntent(R.id.actionButton, pendingIntent);
+                appWidgetManager.updateAppWidget(widgetId, remoteViews);
+            }
         }
 
     }
@@ -44,7 +47,9 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
         if (intent.getAction().equals(ACTION_TEXT_CHANGED)) {
             // handle intent here
-            updateCounter(intent.getStringExtra("NewString"));
+            if(getCounter() != null) {
+                updateCounter(intent.getStringExtra("NewString"));
+            }
         }
     }
 
