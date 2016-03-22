@@ -65,8 +65,7 @@ public class CreateTeamActivity extends ToolbarOptions {
             //this is called when admin press on send button
             public void onClick(View v) {
                 if (addMember()) { //add last member entered
-                    Intent intent = new Intent(CreateTeamActivity.this, ManageTeamActivity.class);
-                    startActivity(intent);
+
                     sendMails();
                 }
 
@@ -95,6 +94,8 @@ public class CreateTeamActivity extends ToolbarOptions {
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(CreateTeamActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
+        Intent intent = new Intent(CreateTeamActivity.this, ManageTeamActivity.class);
+        startActivity(intent);
     }
 
     //verifies the entered email and phone number

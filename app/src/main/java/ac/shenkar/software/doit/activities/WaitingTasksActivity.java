@@ -285,7 +285,20 @@ public class WaitingTasksActivity extends ToolbarOptions implements LoginListene
     }
 
     public void refreshListButtonClicked(View view) {
-        refreshList();
+        if(currentTab.equals("all")){
+            if (loginController.isAdmin()) {
+                controller.getTasks(0);
+            } else {
+                controller.getTasksByAssignee(loginController.getUserName(), 0);
+            }
+        }else{
+            if (loginController.isAdmin()) {
+                controller.getWaitingTasks();
+            } else {
+                controller.getWaitingTasksByAssignee(loginController.getUserName());
+            }
+        }
+        Toast.makeText(this,"updated", Toast.LENGTH_LONG).show();
     }
 
 
