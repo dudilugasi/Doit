@@ -19,6 +19,7 @@ public class CreateTeamController implements ICreateTeamController {
 
     @Override
     public void setMember(TeamMember member, boolean admin) {
+
         ParseUser user = new ParseUser();
         user.setUsername(member.getName());
         user.setPassword(member.getPhone());

@@ -49,7 +49,6 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
                         ((TextView)findViewById(R.id.admin_text)).setText(R.string.admin_notice);
                             signUpButton.setText(R.string.sign_up);
                     }
-
                 }
             }
         });
@@ -76,7 +75,6 @@ public class LogInActivity extends AppCompatActivity implements LoginListener {
                     Intent intent = new Intent(LogInActivity.this, CreateTeamActivity.class);
                     startActivity(intent);
                 }
-
             }
         });
 

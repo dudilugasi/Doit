@@ -181,9 +181,7 @@ public class DAO implements IDataAccess {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> taskList, ParseException e) {
                 if (e == null) {
-
                     List<TaskItem> tasks = new ArrayList<>();
-
                     for (int i = 0; i < taskList.size(); i++) {
                         TaskItem task = parseObjectToTask(taskList.get(i));
                         tasks.add(task);
@@ -206,15 +204,12 @@ public class DAO implements IDataAccess {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> taskList, ParseException e) {
                 if (e == null) {
-
                     List<TaskItem> tasks = new ArrayList<>();
-
                     for (int i = 0; i < taskList.size(); i++) {
                         TaskItem task = parseObjectToTask(taskList.get(i));
                         tasks.add(task);
                     }
                     updateListeners(tasks, Constants.TASK_UPDATE_LISTENER_CODE_ALL_ITEMS);
-
                 } else {
 
                 }
@@ -238,7 +233,6 @@ public class DAO implements IDataAccess {
         t.setPriority(object.getInt("priority"));
         t.setStatus(object.getString("status"));
         t.setTaskName(object.getString("name"));
-
         return t;
     }
 
@@ -323,5 +317,4 @@ public class DAO implements IDataAccess {
     public void getTaskById(String id) {
 
     }
-
 }

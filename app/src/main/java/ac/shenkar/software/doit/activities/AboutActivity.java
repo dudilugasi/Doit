@@ -1,9 +1,11 @@
 package ac.shenkar.software.doit.activities;
 import android.os.Bundle;
 
+
 import ac.shenkar.software.doit.common.ToolbarOptions;
 
 public class AboutActivity extends ToolbarOptions {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

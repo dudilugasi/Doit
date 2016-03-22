@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import ac.shenkar.software.doit.dal.Constants;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;

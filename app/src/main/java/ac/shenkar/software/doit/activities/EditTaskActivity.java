@@ -19,6 +19,7 @@ import android.widget.TextView;
 import ac.shenkar.software.doit.R;
 import ac.shenkar.software.doit.common.DatePickerFragment;
 import ac.shenkar.software.doit.common.TimePickerFragment;
+import ac.shenkar.software.doit.common.ToolbarOptions;
 import ac.shenkar.software.doit.dal.Constants;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -34,7 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class EditTaskActivity extends AppCompatActivity {
+public class EditTaskActivity extends ToolbarOptions {
 
     private String name;
     private Date date = new Date();
@@ -143,12 +144,6 @@ public class EditTaskActivity extends AppCompatActivity {
         String sTime = format.format(newDate);
         format = new SimpleDateFormat("d/MM/y");
         String sDate = format.format(newDate);
-
-
-
-
-
-
 
 
         temp = (EditText) findViewById(R.id.time_text);

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import ac.shenkar.software.doit.R;
 import ac.shenkar.software.doit.bl.CreateTeamController;
 import ac.shenkar.software.doit.bl.ICreateTeamController;
+import ac.shenkar.software.doit.bl.LoginController;
 import ac.shenkar.software.doit.common.TeamMember;
 import ac.shenkar.software.doit.common.ToolbarOptions;
 import java.util.ArrayList;
@@ -64,8 +65,10 @@ public class CreateTeamActivity extends ToolbarOptions {
             @Override
             //this is called when admin press on send button
             public void onClick(View v) {
-                if (addMember()) { //add last member entered
-
+                if (addMember()) { //add last member entere
+                    LoginController.logout();
+                    Intent intent = new Intent(CreateTeamActivity.this, LogInActivity.class);
+                    startActivity(intent);
                     sendMails();
                 }
 
@@ -87,15 +90,13 @@ public class CreateTeamActivity extends ToolbarOptions {
         i.putExtra(Intent.EXTRA_SUBJECT, "Invitation to Join OTS team");
         i.putExtra(Intent.EXTRA_TEXT, "Hi, You have been invited to be a team member in an OTS Team created by me.\n" +
                 "your user name is your name , and your password is your phone number\n" +
-                "Use this link to download and install the App from Google Play\n" +
+                "Use this link to download and install the App from Google Play\n\n" +
                 "https://play.google.com/store/apps/details?id=ac.shenkar.software.doit");
         try {
             startActivity(Intent.createChooser(i, "Send mail"));
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(CreateTeamActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
-        Intent intent = new Intent(CreateTeamActivity.this, ManageTeamActivity.class);
-        startActivity(intent);
     }
 
     //verifies the entered email and phone number

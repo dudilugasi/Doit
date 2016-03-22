@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
 
     tools:context="ac.shenkar.software.doit.activities.ManageTeamActivity">
+
     <TextView
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
@@ -53,4 +54,7 @@
             android:id="@+id/add_team_members_button"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
+
+
 </RelativeLayout>
+

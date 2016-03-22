@@ -31,6 +31,7 @@ public class Constants {
     public static final String APP_PREF = "doit_preferences";
     public static final String UPDATE_EVERY = "doit_update_every";
 
+    public static final String GoogleProjectNo = "785014608667";
 
 
 }
