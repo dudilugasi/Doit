@@ -54,7 +54,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         holder.mTvTaskName.setText(item.getTaskName());
         holder.mTvAssignee.setText(item.getAssignee());
         holder.mTvCategory.setText(item.getCategory());
-        holder.mTvStatus.setText(item.getStatus());
+        if(item.getAccept().equals("waiting")){ holder.mTvStatus.setText(item.getStatus());}
+        else{holder.mTvStatus.setText(item.getStatus()+"/"+item.getAccept()+"ed");}
 
         holder.setClickListener(new ItemClickListener() {
             @Override
