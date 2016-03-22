@@ -1,4 +1,4 @@
-package ac.shenkar.software.doit;
+package ac.shenkar.software.doit.common;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -6,12 +6,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
-import ac.shenkar.software.doit.bl.TaskListAdapter;
-
-import java.util.Objects;
-import java.util.Random;
+import ac.shenkar.software.doit.R;
 
 
 public class SimpleWidgetProvider extends AppWidgetProvider {

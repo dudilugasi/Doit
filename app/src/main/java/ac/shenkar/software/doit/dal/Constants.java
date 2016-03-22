@@ -1,4 +1,4 @@
-package ac.shenkar.software.doit.common;
+package ac.shenkar.software.doit.dal;
 
 public class Constants {
 

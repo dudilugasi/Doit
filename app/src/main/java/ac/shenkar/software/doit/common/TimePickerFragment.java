@@ -1,4 +1,4 @@
-package ac.shenkar.software.doit.activities;
+package ac.shenkar.software.doit.common;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;

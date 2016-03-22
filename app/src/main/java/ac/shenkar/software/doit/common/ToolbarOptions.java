@@ -4,11 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ac.shenkar.software.doit.LogInActivity;
+import ac.shenkar.software.doit.activities.LogInActivity;
 import ac.shenkar.software.doit.activities.AboutActivity;
 import ac.shenkar.software.doit.activities.ManageTeamActivity;
 import ac.shenkar.software.doit.activities.SettingsActivity;
 import ac.shenkar.software.doit.activities.WaitingTasksActivity;
+import ac.shenkar.software.doit.bl.LoginController;
 
 
 public abstract class ToolbarOptions extends AppCompatActivity {

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ac.shenkar.software.doit.common.Constants;
+import ac.shenkar.software.doit.dal.Constants;
 import ac.shenkar.software.doit.common.ToolbarOptions;
 
 public class SettingsActivity extends ToolbarOptions {

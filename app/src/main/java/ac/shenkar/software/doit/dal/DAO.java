@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.util.Log;
 import ac.shenkar.software.doit.bl.LoginListener;
 import ac.shenkar.software.doit.bl.TaskUpdateListener;
-import ac.shenkar.software.doit.common.Constants;
 import ac.shenkar.software.doit.common.TaskItem;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;

@@ -1,4 +1,4 @@
-package ac.shenkar.software.doit.common;
+package ac.shenkar.software.doit.bl;
 import android.content.Context;
 import ac.shenkar.software.doit.bl.LoginListener;
 import ac.shenkar.software.doit.dal.DAO;

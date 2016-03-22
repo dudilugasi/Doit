@@ -17,7 +17,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import ac.shenkar.software.doit.R;
-import ac.shenkar.software.doit.common.Constants;
+import ac.shenkar.software.doit.common.DatePickerFragment;
+import ac.shenkar.software.doit.common.TimePickerFragment;
+import ac.shenkar.software.doit.dal.Constants;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;

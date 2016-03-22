@@ -1,4 +1,4 @@
-package ac.shenkar.software.doit;
+package ac.shenkar.software.doit.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,14 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import ac.shenkar.software.doit.activities.CreateTeamActivity;
-import ac.shenkar.software.doit.activities.WaitingTasksActivity;
+import ac.shenkar.software.doit.R;
 import ac.shenkar.software.doit.bl.CreateTeamController;
 import ac.shenkar.software.doit.bl.LoginListener;
-import ac.shenkar.software.doit.common.Constants;
-import ac.shenkar.software.doit.common.LoginController;
+import ac.shenkar.software.doit.dal.Constants;
+import ac.shenkar.software.doit.bl.LoginController;
 import ac.shenkar.software.doit.common.TeamMember;
 import com.parse.FindCallback;
 import com.parse.ParseQuery;
